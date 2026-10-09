@@ -18,3 +18,16 @@ By applying empirical speed distributions and compliance rates by road type and 
 
 ## Running Simulations
 See `WoolSimulation/EXPERIMENT_REPORT.md` for full instructions on running simulations in `sumo` or `sumo-gui`.
+
+
+## Traffic Data & Statistics Origin (WoolRATH Survey)
+The traffic flow rates and demand patterns used in this repository are derived directly from the **WoolRATH Traffic Data survey** conducted by local volunteers on September 6th and 9th, 2016 (documented in detail at [Wool Crossing Traffic Simulation Part 5](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolcrossingtrafficsimulationpart5)).
+
+### Baseline Flows (Station Garage at 8:00 AM):
+- **Westbound (W):** 500 Cars, 17 HGVs
+- **Eastbound (E):** 518 Cars, 25 HGVs
+
+### Development Impact (800 Homes):
+- Based on TRICS / PTI trip rate modeling (scaling 1,000 homes down to 800 homes = **277 vehicles/hour** generated).
+- Applying the measured 50.88% Eastbound split yields **141 additional cars heading East** (towards Wareham, passing the level crossing) between 8:00 AM and 9:00 AM.
+- Railway barrier closure timings () are integrated to study queue buildup (reaching ~228m near Bailey's Drove during barrier closures).
