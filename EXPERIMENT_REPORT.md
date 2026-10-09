@@ -69,3 +69,8 @@ The Wool SUMO model incorporates the village railway line and level crossing tim
 2. **Level Crossing Queue Interaction**:
    - When the railway gates close, vehicles and pedestrians queue up along the primary and back routes.
    - Slower vehicle speeds (20mph) reduce harsh braking events and smoother acceleration queues when crossing barriers reopen, mitigating stop-start particulate emissions (PMx).
+
+
+## Note on Movie/Simulation Rating & Visuals
+- **Observation**: The simulation color scheme (by speed or emissions) features vibrant red tones for high speeds or congestion, which can visually resemble high-contrast alert indicators.
+- **Action Item**: Implement a refined movie/simulation rating and color-grading scheme to provide clearer, less visually jarring differentiation between compliant traffic (green), normal traffic, and speeders (muted tones) in future video exports.
