@@ -1,0 +1,63 @@
+<!-- 
+
+The level crossing data is taken from levelCrossingTimesDown8am.txt
+
+
+
+-->
+<additional>
+
+    <!--
+	Emissions from crossing
+    -->
+    <edgeData id="emission_0" type="emissions" freq="60" file="wool.emission.xml" />
+
+
+    <tlLogic id="joinedS_0" type="static" programID="1" offset="0">
+
+<!-- was 870 -->
+	<phase duration="870" state="gggggggg"/>
+
+2016-07-06T08:14:32.392370+01:00 hippy sh[1323]: Wed Jul  6 08:14:30: Train 1W96, From DR62, To 5268 - Closing , Opening in 273
+
+	<phase duration="5" state="yyggggyy"/>
+	<phase duration="5" state="rryyyyrr"/>
+
+
+<!-- was 356 -->
+	<phase duration="356" state="rrrrrrrr"/>
+
+2016-07-06T08:20:26.260685+01:00 hippy sh[1323]: Wed Jul  6 08:20:26: Train 2W09, From 5183, To 5185 - Opening
+
+
+TODO: teleporting vehicile?!!!!
+
+
+	<phase duration="5" state="rrggggrr"/>
+
+	<phase duration="630" state="gggggggg"/>
+
+2016-07-06T08:30:58.930085+01:00 hippy sh[1323]: Wed Jul  6 08:30:56: Train 1W51, From 5251, To 5253 - Closing , Opening in 207
+
+	<phase duration="5" state="yyggggyy"/>
+	<phase duration="5" state="rryyyyrr"/>
+	<phase duration="356" state="rrrrrrrr"/>
+
+2016-07-06T08:33:57.288749+01:00 hippy sh[1323]: Wed Jul  6 08:33:56: Train 1W51, From 5261, To 5267 - Opening
+
+	<phase duration="5" state="rrggggrr"/>
+	<phase duration="630" state="gggggggg"/>
+
+2016-07-06T08:40:48.071339+01:00 hippy sh[1323]: Wed Jul  6 08:40:46: Train 1W52, From DR62, To 5268 - Closing , Opening in 248
+
+	<phase duration="5" state="yyggggyy"/>
+	<phase duration="5" state="rryyyyrr"/>
+	<phase duration="356" state="rrrrrrrr"/>
+
+2016-07-06T08:46:18.632550+01:00 hippy sh[1323]: Wed Jul  6 08:46:16: Train 2W09, From 5261, To 5267 - Opening
+
+	<phase duration="5" state="rrggggrr"/>
+	<phase duration="630" state="gggggggg"/>
+
+    </tlLogic>
+</additional>

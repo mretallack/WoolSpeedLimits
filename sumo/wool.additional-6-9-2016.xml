@@ -1,0 +1,59 @@
+<!-- 
+
+The level crossing data is taken from levelCrossingTimesDown8am.txt
+
+
+
+-->
+<additional>
+
+    <!--
+	Emissions from crossing
+    -->
+    <edgeData id="emission_0" type="emissions" freq="60" file="wool.emission.xml" />
+
+
+    <tlLogic id="joinedS_0" type="static" programID="1" offset="0">
+
+
+
+
+
+
+<!-- 0->898  -->
+Tue Sep  6 08:14:58: Train 1W96, From DR62, To 5268 - Closing
+
+	<phase duration="898" state="gggggggg"/>
+
+<!-- running 898  -->
+<!-- 0->1180 = 282  -->
+Tue Sep  6 08:19:40: Train 1W51, From 5261, To 5267 - Opening
+
+<!-- 282 - 5 -5 = 272 -->
+	<phase duration="5" state="yyggggyy"/>
+	<phase duration="5" state="rryyyyrr"/>
+	<phase duration="272" state="rrrrrrrr"/>
+
+<!-- running 1180  -->
+<!-- 0->2393 = 1213  -->
+Tue Sep  6 08:39:53: Train 1W52, From DR62, To 5268 - Closing
+
+	<phase duration="1213" state="gggggggg"/>
+
+<!-- running 2393  -->
+<!-- 0->2704 = 311  -->
+Tue Sep  6 08:45:04: Train 2W09, From 5261, To 5267 - Opening
+
+<!-- 311 - 5 -5 = 272 -->
+	<phase duration="5" state="yyggggyy"/>
+	<phase duration="5" state="rryyyyrr"/>
+	<phase duration="301" state="rrrrrrrr"/>
+
+<!-- running 2704  -->
+	<phase duration="1213" state="gggggggg"/>
+
+
+
+
+    </tlLogic>
+</additional>

@@ -1,0 +1,81 @@
+
+
+This is the sumo model for Wool
+
+To compile:
+
+./configure --prefix=/home/usr/local/sumo-0.26.0
+
+
+
+
+
+1. export osm file from OSM
+
+edit with OSM editor to remove unwanted elements
+
+
+2. convert to Sumo file
+
+Convert info found at:
+http://sumo.dlr.de/wiki/Tutorials/Import_from_OpenStreetMap
+
+
+Dowload http://sumo.dlr.de/wiki/Osm-urban-de.typ.xml
+
+NOTE: had to change highway.primary and highway.secondary to be single lane
+
+netconvert --lefthand --type-files osm-urban-de.typ.xml --ramps.guess --remove-edges.by-vclass hov,taxi,bus,delivery,truck,tram,rail_urban,rail,rail_electric,motorcycle,bicycle,pedestrian --geometry.remove --remove-edges.isolated --tls.join --verbose --osm-files WoolStriped.osm --output-file wool.net.xml
+
+
+
+3. create routes
+
+we need to create routes, the best way to do this is to create "flows" this is a special way to create lots of traffic at a specific flow
+
+duarouter --flow-files wool.flow.xml --net-file wool.net.xml --output-file wool.rou.xml
+
+
+duarouter --flow-files wool.impactswool.xml --net-file wool.net.xml --output-file wool.rou.xml -b 0 -e 3600
+
+
+Flow Data
+---------
+
+wool.impactswool.xml:
+
+
+The wool.impactswool.xml flows file is based upon the flows from the inpact assessment. 
+
+
+wool.estflows.xml:
+
+
+The wool.estflows.xml flows file is based upon the flows from the traffic survey data. 
+
+
+wool.est1000flows.xml:
+
+The wool.est1000flows.xml flows file is based upon the flows from the traffic survey data along with the extra 1000 house TRIP data added into it. 
+
+
+wool.woolrathflows.wr8am.xml:
+
+The wool.woolrathflows.wr8am.xml flows file is based upon the flows from the WoolRath traffic survey data for Winfrith Roundabout	08:00:00 (both E and W). 
+
+
+The wool.woolrathflows.st8am.xml flows file is based upon the flows from the WoolRath traffic survey data for Station Garage	08:00:00 (both E and W). 
+
+
+The wool.woolrathflows1000.wr8am.xml is wool.woolrathflows.wr8am.xml with additional 1000 homes taken from an east/west split from station Station Garage
+
+
+The wool.woolrathflows1000.st8am.xml is wool.woolrathflows.st8am.xml with additional 1000 homes taken from an east/west split from station Station Garage
+
+
+The wool.woolrathflows800.st8am.xml is wool.woolrathflows.st8am.xml with additional 800 homes taken from an east/west split from station Station Garage
+
+
+
+
+

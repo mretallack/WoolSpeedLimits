@@ -1,0 +1,39 @@
+<vehicles>
+
+
+        <vType id="standardCar" accel="0.8" decel="4.5" sigma="0.5" length="5" minGap="2.5" maxSpeed="16.67" vClass="passenger" guiShape="passenger"/>
+
+	<vType id="standardBus" accel="0.2" decel="4.5" sigma="0.5" length="10" minGap="2.5" maxSpeed="10.0" vClass="bus" guiShape="bus/flexible"/>
+
+
+	<!-- From West To east -->
+	<flow id="west_to_east_0" from="348027517" to="--30444" number="100" probability="0.1" type="standardCar" />
+	<flow id="west_to_east_1" from="348027517" to="--30444" number="100" probability="0.02" type="standardBus" />
+
+	<!-- From east To west -->
+	<flow id="east_to_west_0" from="-30444" to="-348027517" number="100" probability="0.1" type="standardCar" />
+	<flow id="east_to_west_1" from="-30444" to="-348027517" number="100" probability="0.02" type="standardBus" />
+
+	<!-- From south To east -->
+	<flow id="south_to_east_0" from="-143541622" to="--30444" number="100" probability="0.1" type="standardCar" />
+	<flow id="south_to_east_1" from="-143541622" to="--30444" number="100" probability="0.02" type="standardBus" />
+
+	<!-- From south To north -->
+	<flow id="south_to_north_0" from="-143541622" to="-144378564" number="100" probability="0.1" type="standardCar" />
+	<flow id="south_to_north_1" from="-143541622" to="-144378564" number="100" probability="0.02" type="standardBus" />
+
+
+	<!-- From south To west -->
+	<flow id="south_to_west_0" from="-143541622" to="-348027517" number="100" probability="0.1" type="standardCar" />
+	<flow id="south_to_west_1" from="-143541622" to="-348027517" number="100" probability="0.02" type="standardBus" />
+
+	<!-- From north To west -->
+	<flow id="north_to_west_0" from="144378564" to="-348027517" number="100" probability="0.1" type="standardCar" />
+	<flow id="north_to_west_1" from="144378564" to="-348027517" number="100" probability="0.02" type="standardBus" />
+
+	<!-- From north To south -->
+	<flow id="north_to_south_0" from="144378564" to="143541625#1" number="100" probability="0.1" type="standardCar" />
+	<flow id="north_to_south_1" from="144378564" to="143541625#1" number="100" probability="0.02" type="standardBus" />
+
+</vehicles>
+

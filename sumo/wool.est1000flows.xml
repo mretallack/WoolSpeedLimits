@@ -1,0 +1,69 @@
+
+
+
+<vehicles>
+
+	<vType id="BYC" vClass="bicycle" guiShape="bicycle"/>
+	<vType id="MCY" vClass="motorcycle" guiShape="motorcycle"/>
+        <vType id="CAR" vClass="passenger" guiShape="passenger"/>
+        <vType id="BUS" vClass="bus" guiShape="bus"/>
+        <vType id="LGV" vClass="truck" guiShape="truck"/>
+        <vType id="HGV" vClass="trailer" guiShape="truck/semitrailer"/>
+
+        <!-- 
+	Start with the flows from west to east over the A352 through wool
+
+	Hour	PC	2WMV	CAR	BUS	LGV	HGV
+	8	2	12	471	2	49	27
+
+	NOTE: ignoring bike for now, will cause chaos on road
+
+	 -->
+        <flow id="west_to_east_1" from="348027517" to="--13195" vehsPerHour="12" type="MCY" />
+        <flow id="west_to_east_2" from="348027517" to="--13195" vehsPerHour="471" type="CAR" />
+	<flow id="west_to_east_3" from="348027517" to="--13195" vehsPerHour="2" type="BUS" />
+	<flow id="west_to_east_4" from="348027517" to="--13195" vehsPerHour="49" type="LGV" />
+	<flow id="west_to_east_5" from="348027517" to="--13195" vehsPerHour="27" type="HGV" />
+
+	<!--
+	Extra vehicles from new estate, NOTE for now added to normal feed
+	
+	--> 
+	<flow id="west_to_east_10" from="4691379#0" to="--13195" vehsPerHour="320" type="CAR" />
+
+	<!--
+	Will leave west to east for now from this dataset, the start point is this side of
+	the crossing so cannot judge the start point correctly yet.  
+	--> 
+
+        <!-- 
+	Now the Flows from South to North, Dont know the end location, so
+	we assume north for now...
+
+	Hour	PC	2WMV	CAR	BUS	LGV	HGV
+	8	0	1	49	2	5	1
+
+	 -->
+	<flow id="south_to_north_0" from="-143541622" to="-144378564" vehsPerHour="1" type="MCY" />
+	<flow id="south_to_north_1" from="-143541622" to="-144378564" vehsPerHour="49" type="CAR" />
+	<flow id="south_to_north_2" from="-143541622" to="-144378564" vehsPerHour="2" type="BUS" />
+	<flow id="south_to_north_3" from="-143541622" to="-144378564" vehsPerHour="5" type="LGV" />
+	<flow id="south_to_north_4" from="-143541622" to="-144378564" vehsPerHour="1" type="HGV" />
+
+	<!-- 
+	Now Use the wareham -> wool stats for this next bit, 
+
+	Hour	PC	2WMV	CAR	BUS	LGV	HGV
+	8	0	6	296	5	49	15
+
+	 -->
+	<flow id="east_to_west_0" from="-13195" to="-348027517" vehsPerHour="6" type="MCY" />
+	<flow id="east_to_west_1" from="-13195" to="-348027517" vehsPerHour="296" type="CAR" />
+	<flow id="east_to_west_2" from="-13195" to="-348027517" vehsPerHour="5" type="BUS" />
+	<flow id="east_to_west_3" from="-13195" to="-348027517" vehsPerHour="49" type="LGV" />
+	<flow id="east_to_west_4" from="-13195" to="-348027517" vehsPerHour="15" type="HGV" />
+
+</vehicles>
+
+
+

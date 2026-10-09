@@ -1,0 +1,7 @@
+<additional>
+    <!-- Edge emissions and statistics collection -->
+    <edgeData id="emission_stats" type="emissions" freq="60" file="wool.emissions.xml"/>
+    
+    <!-- Trip statistics and lane data -->
+    <edgeData id="lane_stats" type="traffic" freq="60" file="wool.traffic_stats.xml"/>
+</additional>

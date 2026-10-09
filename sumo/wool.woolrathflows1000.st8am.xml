@@ -1,0 +1,25 @@
+<vehicles>
+
+	<vType id="BYC" vClass="bicycle" guiShape="bicycle"/>
+	<vType id="MCY" vClass="motorcycle" guiShape="motorcycle"/>
+        <vType id="CAR" vClass="passenger" guiShape="passenger"/>
+        <vType id="BUS" vClass="bus" guiShape="bus"/>
+        <vType id="LGV" vClass="truck" guiShape="truck"/>
+        <vType id="HGV" vClass="trailer" guiShape="truck/semitrailer"/>
+
+   
+
+
+
+    <flow id="west_to_east_2" from="348027517" to="--13195" vehsPerHour="518" type="CAR" />
+	<flow id="west_to_east_5" from="348027517" to="--13195" vehsPerHour="25" type="HGV" />
+
+	<flow id="east_to_west_1" from="-13195" to="-348027517" vehsPerHour="500" type="CAR" />
+	<flow id="east_to_west_4" from="-13195" to="-348027517" vehsPerHour="17" type="HGV" />
+        <!-- 
+		320 from new estate
+	 -->
+	<flow id="west_to_east_10" from="4691379#0" to="--13195" vehsPerHour="176" type="CAR" />
+
+</vehicles>
+

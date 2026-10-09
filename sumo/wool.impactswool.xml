@@ -1,0 +1,50 @@
+<!-- 
+
+This file defines a set of flows using the Potential Traffic Impacts Of Development In The Wool Area 
+
+It uses the AM trip counts from the Auto Counter Site 1827. It does not take into account
+any non-counted traffic from other directions.
+
+I have used the vehicle distrobution found in the open data to split the vehicle counts into
+seperate types, for example Bus etc....
+
+So for A352 Eastbound:
+
+Total counts: 401
+
+PC	2WMV	CAR	BUS	LGV	HGVR2	HGVR3	HGVR4	HGVA3	HGVA5	HGVA6	HGV
+0.00%	2.45%	84.97%	0.31%	9.05%	1.07%	0.15%	0.31%	0.92%	0.00%	0.77%	3.22%
+0	10	341	1	36	4	1	1	4	0	3	13
+
+For A352 Erstbound:
+
+Total counts: 452
+
+PC	2WMV	CAR	BUS	LGV	HGVR2	HGVR3	HGVR4	HGVA3	HGVA5	HGVA6	HGV
+0.00%	1.62%	79.78%	1.35%	13.21%	2.16%	0.27%	0.81%	0.00%	0.54%	0.27%	4.04%
+0	7	361	6	60	10	1	4	0	2	1	18
+
+
+-->
+
+<vehicles>
+
+        <vType id="CAR" vClass="passenger" guiShape="passenger"/>
+        <vType id="BUS" vClass="bus" guiShape="bus"/>
+	<vType id="LGV" vClass="truck" guiShape="truck"/>
+	<vType id="HGV" vClass="trailer" guiShape="truck/semitrailer"/>
+
+	<!-- A352 Eastbound -->
+	<flow id="west_to_east_0" from="348027517" to="--13195" vehsPerHour="341" type="CAR" />
+	<flow id="west_to_east_1" from="348027517" to="--13195" vehsPerHour="1" type="BUS" />
+	<flow id="west_to_east_2" from="348027517" to="--13195" vehsPerHour="36" type="LGV" />
+	<flow id="west_to_east_3" from="348027517" to="--13195" vehsPerHour="13" type="HGV" />
+
+	<!-- From east To west -->
+	<flow id="east_to_west_0" from="-13195" to="-348027517" vehsPerHour="361" type="CAR" />
+	<flow id="east_to_west_1" from="-13195" to="-348027517" vehsPerHour="6" type="BUS" />
+	<flow id="east_to_west_2" from="-13195" to="-348027517" vehsPerHour="60" type="LGV" />
+	<flow id="east_to_west_3" from="-13195" to="-348027517" vehsPerHour="18" type="HGV" />
+
+</vehicles>
+

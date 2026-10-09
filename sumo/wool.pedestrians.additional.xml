@@ -1,0 +1,6 @@
+<additional>
+    <!-- Person flow using valid junction/edge IDs or walking between connected edges -->
+    <personFlow id="walk_commuters" begin="0" end="3600" vehsPerHour="60">
+        <personTrip from="-13195" to="-348027517"/>
+    </personFlow>
+</additional>

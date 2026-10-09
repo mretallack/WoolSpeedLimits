@@ -1,0 +1,37 @@
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
+    <!-- Vehicle types with different speed characteristics -->
+    <!-- Compliant drivers: max speed capped at 20 mph (~8.94 m/s) or 30 mph (~13.41 m/s) depending on limit, or speedFactor = 1.0 -->
+    <vType id="MCY" vClass="motorcycle" guiShape="motorcycle" maxSpeed="35.0"/>
+    <vType id="CAR" vClass="passenger" guiShape="passenger" maxSpeed="30.0" speedFactor="1.05"/>
+    <vType id="CAR_STRICT" vClass="passenger" guiShape="passenger" color="0,255,0" maxSpeed="8.94" speedFactor="1.0" speedDev="0.0"/>
+    <vType id="CAR_SPEEDER" vClass="passenger" guiShape="passenger" color="255,0,0" maxSpeed="40.0" speedFactor="1.3" speedDev="0.1"/>
+    
+    <vType id="BUS" vClass="bus" guiShape="bus" maxSpeed="22.0"/>
+    <vType id="LGV" vClass="truck" guiShape="truck" maxSpeed="25.0"/>
+    <vType id="HGV" vClass="trailer" guiShape="truck/semitrailer" maxSpeed="22.0"/>
+
+    <!-- Flows duplicating west_to_east passenger cars with splitting: 10% strict, 70% normal, 20% speeders -->
+    <flow id="west_to_east_CAR_strict" from="348027517" to="--13195" vehsPerHour="47" type="CAR_STRICT" begin="0" end="3600"/>
+    <flow id="west_to_east_CAR_normal" from="348027517" to="--13195" vehsPerHour="330" type="CAR" begin="0" end="3600"/>
+    <flow id="west_to_east_CAR_speeder" from="348027517" to="--13195" vehsPerHour="94" type="CAR_SPEEDER" begin="0" end="3600"/>
+
+    <flow id="west_to_east_1" from="348027517" to="--13195" vehsPerHour="12" type="MCY" begin="0" end="3600"/>
+    <flow id="west_to_east_3" from="348027517" to="--13195" vehsPerHour="2" type="BUS" begin="0" end="3600"/>
+    <flow id="west_to_east_4" from="348027517" to="--13195" vehsPerHour="49" type="LGV" begin="0" end="3600"/>
+    <flow id="west_to_east_5" from="348027517" to="--13195" vehsPerHour="27" type="HGV" begin="0" end="3600"/>
+    <flow id="west_to_east_10" from="4691379#0" to="--13195" vehsPerHour="320" type="CAR" begin="0" end="3600"/>
+
+    <!-- South to North -->
+    <flow id="south_to_north_0" from="-143541622" to="-144378564" vehsPerHour="1" type="MCY" begin="0" end="3600"/>
+    <flow id="south_to_north_1" from="-143541622" to="-144378564" vehsPerHour="49" type="CAR" begin="0" end="3600"/>
+    <flow id="south_to_north_2" from="-143541622" to="-144378564" vehsPerHour="2" type="BUS" begin="0" end="3600"/>
+    <flow id="south_to_north_3" from="-143541622" to="-144378564" vehsPerHour="5" type="LGV" begin="0" end="3600"/>
+    <flow id="south_to_north_4" from="-143541622" to="-144378564" vehsPerHour="1" type="HGV" begin="0" end="3600"/>
+
+    <!-- East to West -->
+    <flow id="east_to_west_0" from="-13195" to="-348027517" vehsPerHour="6" type="MCY" begin="0" end="3600"/>
+    <flow id="east_to_west_1" from="-13195" to="-348027517" vehsPerHour="296" type="CAR" begin="0" end="3600"/>
+    <flow id="east_to_west_2" from="-13195" to="-348027517" vehsPerHour="5" type="BUS" begin="0" end="3600"/>
+    <flow id="east_to_west_3" from="-13195" to="-348027517" vehsPerHour="49" type="LGV" begin="0" end="3600"/>
+    <flow id="east_to_west_4" from="-13195" to="-348027517" vehsPerHour="15" type="HGV" begin="0" end="3600"/>
+</routes>

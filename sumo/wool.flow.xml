@@ -1,0 +1,28 @@
+<!-- 
+
+This file contains the flows
+
+-->
+
+<flows>
+    <interval begin="0" end="3600">
+
+        <vType id="CAR" vClass="passenger" guiShape="passenger"/>
+        <vType id="BUS" vClass="bus" guiShape="bus"/>
+	<vType id="LGV" vClass="truck" guiShape="truck"/>
+	<vType id="HGV" vClass="trailer" guiShape="truck/semitrailer"/>
+
+	<!-- A352 Eastbound -->
+	<flow id="west_to_east_0" from="348027517" to="--13195" vehsPerHour="341" type="CAR" />
+	<flow id="west_to_east_1" from="348027517" to="--13195" vehsPerHour="1" type="BUS" />
+	<flow id="west_to_east_2" from="348027517" to="--13195" vehsPerHour="36" type="LGV" />
+	<flow id="west_to_east_3" from="348027517" to="--13195" vehsPerHour="13" type="HGV" />
+
+	<!-- From east To west -->
+	<flow id="east_to_west_0" from="-13195" to="-348027517" vehsPerHour="361" type="CAR" />
+	<flow id="east_to_west_1" from="-13195" to="-348027517" vehsPerHour="6" type="BUS" />
+	<flow id="east_to_west_2" from="-13195" to="-348027517" vehsPerHour="60" type="LGV" />
+	<flow id="east_to_west_3" from="-13195" to="-348027517" vehsPerHour="18" type="HGV" />
+    </interval>
+</flows>
+
