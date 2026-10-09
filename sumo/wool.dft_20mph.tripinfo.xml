@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 2026-10-09T14:50:32.680314+00:00 by Eclipse SUMO sumo v1_28_0+0014-aa0f9a4194e
+<!-- generated on 2026-10-09T23:19:22.334281+00:00 by Eclipse SUMO GUI v1_28_0+0014-aa0f9a4194e
 <sumoConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
 
     <input>
-        <net-file value="wool.20mph.net.xml"/>
-        <route-files value="wool.rou.dft_controlled.xml"/>
-        <additional-files value="wool.additional-6-9-2016.xml,wool.stats.additional.xml"/>
+        <net-file value="sumo/wool.20mph.net.xml"/>
+        <route-files value="sumo/wool.rou.dft_controlled.xml"/>
+        <additional-files value="sumo/wool.additional-6-9-2016.xml,sumo/wool.stats.additional.xml"/>
     </input>
 
     <output>
-        <tripinfo-output value="wool.dft_20mph.tripinfo.xml"/>
-        <statistic-output value="wool.dft_20mph.statistic.xml"/>
+        <tripinfo-output value="sumo/wool.dft_20mph.tripinfo.xml"/>
+        <statistic-output value="sumo/wool.dft_20mph.statistic.xml"/>
     </output>
 
     <time>
@@ -28,7 +28,11 @@
     </report>
 
     <gui_only>
-        <gui-settings-file value="wool.settings.xml"/>
+        <gui-settings-file value="sumo/wool.settings.xml"/>
+        <quit-on-end value="true"/>
+        <start value="true"/>
+        <delay value="50"/>
+        <window-size value="1920,1080"/>
     </gui_only>
 
 </sumoConfiguration>
