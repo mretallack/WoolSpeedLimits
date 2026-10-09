@@ -31,3 +31,15 @@ The traffic flow rates and demand patterns used in this repository are derived d
 - Based on TRICS / PTI trip rate modeling (scaling 1,000 homes down to 800 homes = **277 vehicles/hour** generated).
 - Applying the measured 50.88% Eastbound split yields **141 additional cars heading East** (towards Wareham, passing the level crossing) between 8:00 AM and 9:00 AM.
 - Railway barrier closure timings () are integrated to study queue buildup (reaching ~228m near Bailey's Drove during barrier closures).
+
+
+## Comprehensive Simulation Plan: Sticky Routing & Hourly/Weekly Temporal Profiling
+To further enhance the realism and accuracy of the Wool speed limit study, the simulation methodology incorporates two key advancements:
+
+1. **Sticky Through-Traffic Routing (No Back-Street Detours):**
+   - Vehicles traveling West-to-East or East-through-West are assigned fixed, explicit route edges along the primary corridor (Dorchester Road / High Street).
+   - Automatic dynamic re-routing is disabled, ensuring that when railway level crossing barrier closures occur, vehicles queue realistically along the main route rather than making artificial detours through residential back roads (such as Colliers Lane or Lulworth Road).
+
+2. **24/7 Hourly & Day-of-Week Temporal Profiling:**
+   - Utilizing Department for Transport temporal distributions (**SPE0103** for hour-of-day and **SPE0104** for day-of-week) combined with WoolRATH survey data, a full 24-hour $	imes$ 7-day batch runner scales baseline traffic flow rates ().
+   - This captures distinct traffic behaviors across weekday commuter peaks, school runs, weekend leisure travel, and late-night quiet periods, generating complete multi-day statistical matrices for emissions, queue lengths (e.g., up to 228m near Bailey's Drove), and journey times.
