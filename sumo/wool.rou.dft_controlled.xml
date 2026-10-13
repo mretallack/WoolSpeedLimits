@@ -1,13 +1,13 @@
 <routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
     
-    <vType id="MCY" vClass="motorcycle" guiShape="motorcycle" maxSpeed="35.0" speedFactor="1.1" speedDev="0.15" />
-    <vType id="CAR_COMPLIANT" vClass="passenger" guiShape="passenger" color="0,255,0" maxSpeed="8.94" speedFactor="1.0" speedDev="0.0" />
-    <vType id="CAR_NORMAL" vClass="passenger" guiShape="passenger" color="0,0,255" maxSpeed="15.0" speedFactor="1.02" speedDev="0.05" />
-    <vType id="CAR_SPEEADER" vClass="passenger" guiShape="passenger" color="255,0,0" maxSpeed="25.0" speedFactor="1.25" speedDev="0.1" />
+    <vType id="MCY" vClass="motorcycle" guiShape="motorcycle" maxSpeed="35.0" speedFactor="1.1" speedDev="0.15" device.rerouting.probability="0.0" />
+    <vType id="CAR_COMPLIANT" vClass="passenger" guiShape="passenger" color="0,255,0" maxSpeed="8.94" speedFactor="1.0" speedDev="0.0" device.rerouting.probability="0.0" />
+    <vType id="CAR_NORMAL" vClass="passenger" guiShape="passenger" color="0,0,255" maxSpeed="15.0" speedFactor="1.02" speedDev="0.05" device.rerouting.probability="0.0" />
+    <vType id="CAR_SPEEADER" vClass="passenger" guiShape="passenger" color="255,0,0" maxSpeed="25.0" speedFactor="1.25" speedDev="0.1" device.rerouting.probability="0.0" />
     
-    <vType id="BUS" vClass="bus" guiShape="bus" maxSpeed="22.0" speedFactor="0.95" />
-    <vType id="LGV" vClass="truck" guiShape="truck" maxSpeed="25.0" speedFactor="1.0" />
-    <vType id="HGV" vClass="trailer" guiShape="truck/semitrailer" maxSpeed="22.0" speedFactor="0.9" />
+    <vType id="BUS" vClass="bus" guiShape="bus" maxSpeed="22.0" speedFactor="0.95" device.rerouting.probability="0.0" />
+    <vType id="LGV" vClass="truck" guiShape="truck" maxSpeed="25.0" speedFactor="1.0" device.rerouting.probability="0.0" />
+    <vType id="HGV" vClass="trailer" guiShape="truck/semitrailer" maxSpeed="22.0" speedFactor="0.9" device.rerouting.probability="0.0" />
 
     
     <flow id="we_car_comp" from="348027517" to="--13195" vehsPerHour="47" type="CAR_COMPLIANT" begin="0" end="3600" departLane="best" departSpeed="max" />

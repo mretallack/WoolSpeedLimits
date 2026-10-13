@@ -1,0 +1,8 @@
+# Generated SUMO outputs (paths are relative to this sumo/ directory)
+
+# Vehicle-level emission files (per-vehicle per-timestep) are large
+# (100-350 MB) and fully regenerable from the .sumo.cfg via <emission-output>.
+*.emissions.xml
+
+# WebM renders (large binaries)
+*.webm

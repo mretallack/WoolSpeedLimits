@@ -30,7 +30,7 @@ The traffic flow rates and demand patterns used in this repository are derived d
 ### Development Impact (800 Homes):
 - Based on TRICS / PTI trip rate modeling (scaling 1,000 homes down to 800 homes = **277 vehicles/hour** generated).
 - Applying the measured 50.88% Eastbound split yields **141 additional cars heading East** (towards Wareham, passing the level crossing) between 8:00 AM and 9:00 AM.
-- Railway barrier closure timings () are integrated to study queue buildup (reaching ~228m near Bailey's Drove during barrier closures).
+- Railway barrier closure timings (from the 6th–9th September 2016 level-crossing logs, e.g. Train 1W96 closing the crossing at 08:14:58) are integrated to study queue buildup (reaching ~228m near Bailey's Drove during barrier closures).
 
 
 ## Comprehensive Simulation Plan: Sticky Routing & Hourly/Weekly Temporal Profiling
@@ -41,5 +41,5 @@ To further enhance the realism and accuracy of the Wool speed limit study, the s
    - Automatic dynamic re-routing is disabled, ensuring that when railway level crossing barrier closures occur, vehicles queue realistically along the main route rather than making artificial detours through residential back roads (such as Colliers Lane or Lulworth Road).
 
 2. **24/7 Hourly & Day-of-Week Temporal Profiling:**
-   - Utilizing Department for Transport temporal distributions (**SPE0103** for hour-of-day and **SPE0104** for day-of-week) combined with WoolRATH survey data, a full 24-hour $	imes$ 7-day batch runner scales baseline traffic flow rates ().
+   - Utilizing Department for Transport temporal distributions (**SPE0103** for hour-of-day and **SPE0104** for day-of-week) combined with WoolRATH survey data, a full 24-hour × 7-day batch runner scales the baseline traffic flow rates (e.g. the 8:00 AM peak of 471 cars, 49 LGVs and 27 HGVs west-to-east).
    - This captures distinct traffic behaviors across weekday commuter peaks, school runs, weekend leisure travel, and late-night quiet periods, generating complete multi-day statistical matrices for emissions, queue lengths (e.g., up to 228m near Bailey's Drove), and journey times.

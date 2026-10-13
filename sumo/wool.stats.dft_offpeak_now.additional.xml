@@ -1,0 +1,9 @@
+<additional>
+    <!-- Road-level emissions (per edge, per 60s interval) for the dft_offpeak_now scenario.
+         Vehicle-level emissions come from <emission-output> in the .sumo.cfg.
+         Compare both with analyze_emissions.py. -->
+    <edgeData id="emission_stats" type="emissions" freq="60" file="wool.dft_offpeak_now.road_emissions.xml"/>
+
+    <!-- Lane-level traffic statistics -->
+    <edgeData id="lane_stats" type="traffic" freq="60" file="wool.dft_offpeak_now.traffic_stats.xml"/>
+</additional>

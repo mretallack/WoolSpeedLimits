@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 2026-10-09T23:19:22.334755+00:00 by Eclipse SUMO GUI v1_28_0+0014-aa0f9a4194e
+<!-- generated on 2026-10-13T20:31:06.627347+00:00 by Eclipse SUMO sumo v1_28_0+0014-aa0f9a4194e
 <sumoConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
 
     <input>
-        <net-file value="sumo/wool.20mph.net.xml"/>
-        <route-files value="sumo/wool.rou.dft_controlled.xml"/>
-        <additional-files value="sumo/wool.additional-6-9-2016.xml,sumo/wool.stats.additional.xml"/>
+        <net-file value="wool.20mph.net.xml"/>
+        <route-files value="wool.rou.dft_controlled.xml"/>
+        <additional-files value="wool.additional-6-9-2016.xml,wool.stats.dft_20mph.additional.xml"/>
     </input>
 
     <output>
-        <tripinfo-output value="sumo/wool.dft_20mph.tripinfo.xml"/>
-        <statistic-output value="sumo/wool.dft_20mph.statistic.xml"/>
+        <emission-output value="wool.dft_20mph.emissions.xml"/>
+        <tripinfo-output value="wool.dft_20mph.tripinfo.xml"/>
+        <statistic-output value="wool.dft_20mph.statistic.xml"/>
     </output>
 
     <time>
@@ -28,24 +29,20 @@
     </report>
 
     <gui_only>
-        <gui-settings-file value="sumo/wool.settings.xml"/>
-        <quit-on-end value="true"/>
-        <start value="true"/>
-        <delay value="50"/>
-        <window-size value="1920,1080"/>
+        <gui-settings-file value="wool.settings.xml"/>
     </gui_only>
 
 </sumoConfiguration>
 -->
 
 <statistics xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/statistic_file.xsd">
-    <performance clockBegin="1791584362.35" clockEnd="1791584544.63" clockDuration="182.29" traciDuration="13.16" realTimeFactor="19.75" vehicleUpdatesPerSecond="5621.20" personUpdatesPerSecond="0.00" begin="0.00" end="3600.00" duration="3600.00"/>
-    <vehicles loaded="1310" inserted="1279" running="406" waiting="31"/>
+    <performance clockBegin="1791919866.64" clockEnd="1791919920.92" clockDuration="54.28" traciDuration="6.01" realTimeFactor="66.32" vehicleUpdatesPerSecond="19937.07" personUpdatesPerSecond="0.00" begin="0.00" end="3600.00" duration="3600.00"/>
+    <vehicles loaded="1470" inserted="1416" running="415" waiting="54"/>
     <teleports total="0" jam="0" yield="0" wrongLane="0"/>
     <safety collisions="0" emergencyStops="0" emergencyBraking="0"/>
     <persons loaded="0" running="0" jammed="0"/>
     <personTeleports total="0" abortWait="0" wrongDest="0"/>
-    <vehicleTripStatistics count="873" routeLength="5819.16" speed="8.77" duration="784.18" waitingTime="140.87" timeLoss="380.80" departDelay="5.45" departDelayWaiting="-1.00" totalTravelTime="684592.00" totalDepartDelay="4760.55"/>
+    <vehicleTripStatistics count="1001" routeLength="5496.80" speed="9.06" duration="704.37" waitingTime="119.88" timeLoss="321.54" departDelay="9.15" departDelayWaiting="-1.00" totalTravelTime="705075.00" totalDepartDelay="9160.14"/>
     <pedestrianStatistics number="0" routeLength="0.00" duration="0.00" timeLoss="0.00"/>
     <rideStatistics number="0"/>
     <transportStatistics number="0"/>

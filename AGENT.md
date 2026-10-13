@@ -9,6 +9,18 @@ This repository (`TrafficSim` / `WoolSimulation`) models traffic simulation scen
 
 ## Working with the Simulation
 When running or modifying simulations:
-1. Always use controlled random seeds or identical route files (`wool.rou.dft_controlled.xml`) between the 30mph baseline (`wool.stats_now.sumo.cfg`) and 20mph proposed scheme (`wool.stats_20mph.sumo.cfg`) to ensure valid before-and-after comparisons.
+1. Always use controlled random seeds or identical route files between the 30mph baseline and 20mph proposed scheme to ensure valid before-and-after comparisons. Primary comparison pairs:
+   - **Peak (controlled):** `wool.dft_now.sumo.cfg` vs `wool.dft_20mph.sumo.cfg` (routes `wool.rou.dft_controlled.xml`).
+   - **Off-peak:** `wool.dft_offpeak_now.sumo.cfg` vs `wool.dft_offpeak_20mph.sumo.cfg` (routes `wool.rou.dft_offpeak.xml`).
 2. Run SUMO using `sumo -c <config>.sumo.cfg`.
 3. Respect submodules (`WoolSimulation`) when committing and pushing changes.
+
+## Emissions: always report TWO levels
+A speed-limit change can move emissions in *opposite* directions at road level vs
+vehicle level, so **never report a single figure**. Each config emits both:
+- **Road-level** → `wool.dft_<scenario>.road_emissions.xml` (edgeData, via `wool.stats.<scenario>.additional.xml`).
+- **Vehicle-level** → `wool.dft_<scenario>.emissions.xml` (`<emission-output>`).
+
+Analyse with `sumo/analyze_emissions.py`, which prints **road_total**, **vehicle_total**
+and **vehicle_perkm** (per-km) side by side. See `EXPERIMENT_REPORT.md` §2.1 for the
+headline numbers and the caveat that "slower ⇒ cleaner" only holds per-km off-peak.
