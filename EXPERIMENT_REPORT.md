@@ -409,8 +409,15 @@ vehicle-km are driven** — an absolute emission total = distance × rate:
 
 - **Per km driven, five of six pollutants fall** (CO2, fuel, NOx, PMx, HC);
   only **CO rises per km**.
-- **PMx and HC rise in the totals only because more vehicle-km are driven**
-  — they are *not* per-vehicle increases.
+- **How to read the PMx and HC rows.** An absolute total = (distance driven) ×
+  (emission per km), so the two effects multiply. For PMx that is
+  **+7.60%** (distance) × **−4.43%** (per km) ≈ +2.8% → the *total* rises
+  **+3.09%** *even though each kilometre is cleaner*. In words: **the rise is
+  entirely a distance/volume effect, not a dirtier vehicle.** HC is the same
+  (+7.60% × −5.66% ≈ +1.6% → +1.72%). This is why the PMx total (+3.09%) is
+  smaller than the distance rise (+7.60%): the per-km improvement offsets part
+  of it. Contrast **CO**, where both factors are positive (+7.60% × +21.15%) —
+  a genuine per-km increase.
 - HC is also the least stable metric (§2.1.1), so its small change is within
   noise.
 
