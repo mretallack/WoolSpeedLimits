@@ -5,10 +5,11 @@ the proposed 20mph speed limit in the village of Wool, Dorset, as detailed in
 the [Wool Speed Limit Wiki](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit).
 
 **Headline finding (caveated):** the modelled emissions result depends on the
-assumed driver behaviour. With DfT-calibrated speed distributions (the
-evidence-based set) the absolute peak totals are **mixed** — CO2/fuel fall but
-PMx/CO rise — while per km driven most pollutants fall. Journey times improve in
-all sets. See the two result documents below.
+assumed driver behaviour, and on whether it is measured **per km** or as an
+**absolute total**. Under DfT-calibrated behaviour, **per km driven five of six
+pollutants fall** (only CO rises); absolute totals are mixed because the 20mph
+scenario drives +7.6% more vehicle-km. Journey times improve in all sets. See
+the two result documents below.
 
 ## Tests we have run
 

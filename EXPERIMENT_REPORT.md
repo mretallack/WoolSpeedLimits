@@ -209,13 +209,15 @@ is therefore misleading, so `analyze_emissions.py` reports:
   pollution and reduces it under peak conditions.
 - **Major caveat — the result is behaviour-dependent.** When the driver speed
   distribution is instead fitted to DfT SPE0101 (2024) — where ~43% exceed on
-  30mph roads but ~76% on 20mph roads — the peak emissions result becomes
-  **mixed**: CO2 and fuel **fall** (−4.8%), while PMx and CO **rise** (+3% and
-  +31%); the per-km view shows most pollutants falling (see
+  30mph roads but ~76% on 20mph roads — the peak result becomes **mixed**. Per
+  km driven, five of six pollutants fall (only CO rises); absolute totals are
+  mixed because the 20mph scenario drives **+7.6% more vehicle-km** (PMx and HC
+  rise in the totals purely from that extra distance — see
   [`SENSITIVITY_BEHAVIOUR.md`](SENSITIVITY_BEHAVIOUR.md)). The figures in §2.1
   are for the fixed-mix (`dft`) set only; the DfT-calibrated (`cal`) set is
   reported separately. This section's conclusion should therefore be read as
-  *conditional on the behaviour assumption*.
+  *conditional on the behaviour assumption and on whether per-km or total is
+  quoted*.
 - **Other caveats:** the conclusion is also *demand- and network-dependent*.
   Re-runs must use the calibrated demand (`FLOW_CALIBRATION.md`) and the
   consultation-defined network (`sumo/NETWORK_BUILD.md`).
