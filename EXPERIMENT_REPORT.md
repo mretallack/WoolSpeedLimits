@@ -89,26 +89,51 @@ DfT-calibrated `cal` §2.4), which give different answers.
 
 ---
 
-## 1. How to Generate Video Visualizations
+## 1. Video Visualizations
 
-Pre-rendered videos of the scenarios live in `sumo/` — the peak and off-peak
-`dft` pair (`wool_peak_30mph.webm`, `wool_peak_20mph.webm`,
-`wool_offpeak_30mph.webm`, `wool_offpeak_20mph.webm`) and the `cal` pair
-(`wool_cal_peak_30mph.webm`, `wool_cal_peak_20mph.webm`,
-`wool_cal_offpeak_30mph.webm`, `wool_cal_offpeak_20mph.webm`).
+Pre-rendered videos of every scenario are committed in `sumo/` (each 200 s,
+~20–29 MB). They let a reader see the scheme playing out — traffic volumes,
+queues at the level crossing, and how compliance differs between the two
+driver-behaviour sets.
 
-To re-record in SUMO-GUI, use `sumo/render_sync.sh <config> <output.webm> [secs] [delay]`
-(headless via Xvfb + ffmpeg), or interactively:
+| Video (`sumo/…`) | Set | Period | Network | Driver behaviour | Illustrates |
+|---|---|---|---|---|---|
+| `wool_peak_30mph.webm` | `dft` | peak | 30mph baseline | fixed 10 / 70 / 20 | §2.1 baseline |
+| `wool_peak_20mph.webm` | `dft` | peak | 20mph scheme | fixed 10 / 70 / 20 | §2.1 scheme |
+| `wool_offpeak_30mph.webm` | `dft` | off-peak | 30mph baseline | fixed 10 / 70 / 20 | §2.1 baseline |
+| `wool_offpeak_20mph.webm` | `dft` | off-peak | 20mph scheme | fixed 10 / 70 / 20 | §2.1 scheme |
+| `wool_cal_peak_30mph.webm` | `cal` | peak | 30mph baseline | DfT-fitted (43% exceed) | §2.4 baseline |
+| `wool_cal_peak_20mph.webm` | `cal` | peak | 20mph scheme | DfT-fitted (76% exceed) | §2.4 scheme |
+| `wool_cal_offpeak_30mph.webm` | `cal` | off-peak | 30mph baseline | DfT-fitted (43% exceed) | §2.4 baseline |
+| `wool_cal_offpeak_20mph.webm` | `cal` | off-peak | 20mph scheme | DfT-fitted (76% exceed) | §2.4 scheme |
 
-### Running the scenarios in GUI
+*Set key:* `dft` = fixed car mix (10% compliant / 70% normal / 20% speeder);
+`cal` = driver speed distribution fitted to DfT 2024 compliance data (§2.4).
+The `cal` videos show **more speeding**, especially on the 20mph network.
+
+### Re-recording or running interactively
+
+Headless (Xvfb + ffmpeg):
+
+```bash
+cd sumo
+./render_sync.sh <config.sumo.cfg> <output.webm> [duration_secs] [delay_ms]
+# e.g. ./render_sync.sh wool.dft_20mph.sumo.cfg wool_peak_20mph.webm 200 60
+```
+
+Or in SUMO-GUI (use the recording toolbar / camera icon to export frames/video):
+
 ```bash
 cd sumo
 sumo-gui -c wool.dft_now.sumo.cfg            # peak 30mph
 sumo-gui -c wool.dft_20mph.sumo.cfg          # peak 20mph
 sumo-gui -c wool.dft_offpeak_now.sumo.cfg    # off-peak 30mph
 sumo-gui -c wool.dft_offpeak_20mph.sumo.cfg  # off-peak 20mph
+sumo-gui -c wool.cal_now.sumo.cfg            # peak 30mph (DfT-calibrated)
+sumo-gui -c wool.cal_20mph.sumo.cfg          # peak 20mph (DfT-calibrated)
+sumo-gui -c wool.cal_offpeak_now.sumo.cfg    # off-peak 30mph (DfT-calibrated)
+sumo-gui -c wool.cal_offpeak_20mph.sumo.cfg  # off-peak 20mph (DfT-calibrated)
 ```
-*(In SUMO-GUI, use the recording toolbar or camera icon to export frames/video.)*
 
 > **Note:** SUMO-GUI crashes on this host if a vType sets
 > `device.rerouting.probability="0.0"`. That attribute has been removed from the

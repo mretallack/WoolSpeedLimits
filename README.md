@@ -25,7 +25,8 @@ assumption.
 ## Result documents
 - **[`EXPERIMENT_REPORT.md`](EXPERIMENT_REPORT.md)** — the full analysis:
   emissions, flow/journey times, noise, **and the driver-behaviour sensitivity
-  (§2.4)**, mapped section-by-section to the Wool Speed Limit wiki.
+  (§2.4)**, mapped section-by-section to the Wool Speed Limit wiki. **§1 has a
+  table of the eight pre-rendered scenario videos** (committed in `sumo/`).
 - **[`FLOW_CALIBRATION.md`](FLOW_CALIBRATION.md)** — how traffic demand was
   calibrated to the WoolRATH survey.
 - **[`sumo/NETWORK_BUILD.md`](sumo/NETWORK_BUILD.md)** — how the 20mph network is
