@@ -4,9 +4,10 @@ This document reports a **sensitivity test** on the main result. It asks: does
 the "20mph has no negative effect" conclusion hold when driver behaviour is
 calibrated to real DfT speed-compliance data?
 
-**Answer: no — the emissions result reverses.** Journey times still improve
-slightly, but emissions *increase* under 20mph once realistic non-compliance is
-modelled.
+**Answer: the result becomes mixed and no longer a clean "reduction".** Per km
+driven, five of six pollutants **fall** (only CO rises). Absolute totals are
+mixed — some fall, some rise — largely because the 20mph scenario drives more
+vehicle-km. Journey times **improve** in this set.
 
 ## What was changed
 

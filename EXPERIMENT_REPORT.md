@@ -19,7 +19,8 @@ The comparison pairs (survey-calibrated demand, see `FLOW_CALIBRATION.md`) are:
 These use a **fixed** car mix (10% compliant / 70% normal / 20% speeder) at both
 limits. A **second set with DfT-calibrated driver behaviour** (`wool.cal_*.sumo.cfg`)
 is reported separately in [`SENSITIVITY_BEHAVIOUR.md`](SENSITIVITY_BEHAVIOUR.md);
-it reaches the opposite emissions conclusion (see the caveat in §2.1).
+it produces a **mixed** emissions result that differs from this set (see the
+caveat in §2.1).
 
 The 20mph scheme is defined by an **explicit list of roads**, not a blanket
 change. The authoritative definition is the Dorset Council consultation geoJSON
@@ -204,9 +205,9 @@ is therefore misleading, so `analyze_emissions.py` reports:
 - **Off-peak**: the change is small (|Δ| ≤ 0.6% except HC), i.e. **no
   meaningful penalty** from the scheme at free-flow. HC is within run-to-run
   tolerance (see §2.1.1).
-- Net: for **this behaviour assumption** (fixed 10%/70%/20% car mix, same at
-  both limits) the result **supports Hypothesis 1** — 20mph does not increase
-  pollution and reduces it under peak conditions.
+- Net: for **this behaviour assumption only** (fixed 10%/70%/20% car mix, same
+  at both limits) the peak result reduces emissions; it does **not** establish
+  the conclusion generally — the DfT-calibrated set below gives a mixed result.
 - **Major caveat — the result is behaviour-dependent.** When the driver speed
   distribution is instead fitted to DfT SPE0101 (2024) — where ~43% exceed on
   30mph roads but ~76% on 20mph roads — the peak result becomes **mixed**. Per
@@ -472,20 +473,22 @@ This simulation supports the wiki's overall case, with these qualifications:
 
 | Wiki recommendation | Simulation support |
 |---|---|
-| Rec 1 — proceed with a formal 20mph proposal | Supported: no emissions penalty, flow preserved |
-| Rec 2 — community engagement campaign | N/A (attitudinal, §2.3) — simulation gives the evidence base |
+| Rec 1 — proceed with a formal 20mph proposal | Supported for flow (journey time never worse); emissions are **mixed** and behaviour-dependent (per km mostly fall, totals mixed — see §2.1) |
+| Rec 2 — community engagement campaign | N/A (attitudinal, §2.3) — simulation gives part of the evidence base |
 | Rec 3 — phased pilot with monitoring | Supported: the calibrated model is the monitoring baseline |
 | Rec 4 — self-enforcing road design | Not modelled (physical calming differs from a signs-only cap) |
 | Rec 5 — enforcement/education strategy | Not modelled |
 
-**Net:** the simulations support the emissions (§2.1) and flow (§2.2)
-arguments — a clear emissions reduction at peak and a negligible journey-time
-impact. On noise (§3.3) the model shows **no reduction** (a signs-only cap on
-side roads leaves network noise essentially unchanged), so the noise argument
-rests on the wiki's external evidence rather than this simulation. The
-safety-outcome (§3.1) and active-travel (§3.2) arguments remain **evidence
-gaps** in the current model and are flagged as future work rather than
-confirmed.
+**Net:** the simulations support the **flow** argument (§2.2) — journey time is
+never worse under 20mph. The **emissions** picture (§2.1) is **behaviour-
+dependent and, when calibrated to DfT data, mixed**: per km driven most
+pollutants fall (only CO rises), while absolute totals can move either way
+depending on how much extra distance is driven. On **noise** (§3.3) the model
+shows **no reduction** (a signs-only cap on side roads leaves network noise
+essentially unchanged), so the noise argument rests on the wiki's external
+evidence rather than this simulation. The safety-outcome (§3.1) and
+active-travel (§3.2) arguments remain **evidence gaps** in the current model and
+are flagged as future work rather than confirmed.
 
 ---
 

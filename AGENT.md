@@ -30,15 +30,20 @@ When running or modifying simulations:
 2. Run SUMO using `sumo -c <config>.sumo.cfg`.
 3. Respect submodules (`WoolSimulation`) when committing and pushing changes.
 
-## Emissions: always report TWO levels
-A speed-limit change can move emissions in *opposite* directions at road level vs
-vehicle level, so **never report a single figure**. Each config emits both:
-- **Road-level** → `wool.dft_<scenario>.road_emissions.xml` (edgeData, via `wool.stats.<scenario>.additional.xml`).
-- **Vehicle-level** → `wool.dft_<scenario>.emissions.xml` (`<emission-output>`).
+## Emissions: always report the LEVEL and the VIEW
+A speed-limit change can move emissions in *opposite* directions depending on how
+they are aggregated, so **never report a single figure**. Report:
+- **Level**: road (`*.road_emissions.xml`, edgeData) vs vehicle (`*.emissions.xml`).
+- **View**: absolute **total** vs **per km** (`vehicle_perkm`). These differ
+  materially: absolute totals also depend on **how many vehicle-km are driven**
+  (a scenario that completes more trips drives more km and raises every total).
+  In the DfT-calibrated set the totals are *mixed* while **per km five of six
+  pollutants fall**.
 
-Analyse with `sumo/analyze_emissions.py`, which prints **road_total**, **vehicle_total**
-and **vehicle_perkm** (per-km) side by side. See `EXPERIMENT_REPORT.md` §2.1 for the
-headline numbers.
+Analyse with `sumo/analyze_emissions.py` (prints road_total, vehicle_total and
+vehicle_perkm side by side). Also **state the behaviour assumption**: the fixed
+`dft` set and the DfT-calibrated `cal` set give different answers. See
+`EXPERIMENT_REPORT.md` §2.1 and `SENSITIVITY_BEHAVIOUR.md`.
 
 ## Saturation guard (run this after every demand change)
 Before trusting any emissions result, confirm the run did not saturate:
