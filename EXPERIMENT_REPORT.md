@@ -34,7 +34,10 @@ the cause and magnitude are documented in [§2.1.1](#211-reproducibility-run-to-
 This report is written to test the claims in
 [**The Case for a 20mph Speed Limit in Wool, Dorset**](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit).
 Every section of that wiki page is listed below with its anchor link and the
-simulation evidence (or explicit note) that addresses it.
+simulation evidence (or explicit note) that addresses it. Each report section
+that maps to the wiki also links the relevant **sub-sections** directly (the
+wiki's `h4` anchors, e.g. *Evidence from London*, *How lower speeds can mean
+shorter journeys*, *How much quieter?*, *The 20mph threshold*, *Table 1–3*).
 
 | Wiki section | Simulation coverage | Where |
 |---|---|---|
@@ -228,20 +231,35 @@ an observed fact. A mechanistic explanation is deferred pending multiple seeded
 replicates of each scenario.
 
 **Wiki link:** addresses
-[2.1 Vehicle Emissions at Slower Speeds](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#vehicle_emissions_at_slower_speeds).
+[2.1 Vehicle Emissions at Slower Speeds](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#vehicle_emissions_at_slower_speeds),
+specifically:
+- [Evidence from London (Imperial College / TfL)](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#evidence_from_london_imperial_college_tfl)
+- [Emissions vary by engine type](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#emissions_vary_by_engine_type)
+- [The physics of lower speeds](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#the_physics_of_lower_speeds)
+- [Real-world emissions modelling (Future Transport)](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#real-world_emissions_modelling_future_transport)
+- [Speed limits vs physical traffic calming](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#speed_limits_vs_physical_traffic_calming)
+
 The wiki claims 20mph "is unlikely to result in an increase in vehicle
 pollution and may even lead to a reduction" — the calibrated model **supports**
 this (peak −1.4% to −2.6% on the bulk pollutants; −7.0% CO, −6.5% HC). The
-wiki's London/TfL evidence cites an 8.3% PM10 drop for petrol cars; our PMx
-change is smaller (−2.2% peak, +0.8% off-peak) because the fleet is modelled
-generically rather than split petrol/diesel, and because we track exhaust PMx
-from the HBEFA model (tyre/brake wear is not separately resolved). The wiki's
-Future Transport figures (CO2 −26%, NOx −28%) are much larger than ours; the
-simulation reflects Wool's specific demand and geometry.
+wiki's London/TfL evidence cites an 8.3% PM10 drop for petrol cars, with
+emissions varying by engine type (petrol vs diesel); our PMx change is smaller
+(−2.2% peak, +0.8% off-peak) because the fleet is modelled generically rather
+than split petrol/diesel, and because we track exhaust PMx from the HBEFA model
+(tyre/brake wear is not separately resolved). The wiki's *physics of lower
+speeds* point (30mph needs 2.25× the energy of 20mph) is reflected in our
+`fuel` totals. The wiki's Future Transport figures (CO2 −26%, NOx −28%) are much
+larger than ours; the simulation reflects Wool's specific demand and geometry.
+The wiki notes that **physical traffic calming** (humps) raises emissions,
+whereas Wool's proposal is a **speed limit without physical obstructions** — the
+model implements the latter (signs-only network speed caps).
 
 ### 2.2 Traffic Flow and Journey Times
 
-**Wiki link:** [2.2 Impact on Traffic Flow and Congestion](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#impact_on_traffic_flow_and_congestion).
+**Wiki link:** [2.2 Impact on Traffic Flow and Congestion](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#impact_on_traffic_flow_and_congestion),
+specifically:
+- [How lower speeds can mean shorter journeys](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#how_lower_speeds_can_mean_shorter_journeys)
+- [Context matters, but delays are minimal](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#context_matters_but_delays_are_minimal)
 
 Measured journey-time and flow metrics (survey-calibrated demand, from
 `wool.dft_*.statistic.xml`):
@@ -263,7 +281,11 @@ Measured journey-time and flow metrics (survey-calibrated demand, from
 
 ### 2.3 Public Perception (Not Modelled)
 
-**Wiki link:** [2.3 Public Perception and Acceptance](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#public_perception_and_acceptance).
+**Wiki link:** [2.3 Public Perception and Acceptance](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#public_perception_and_acceptance),
+specifically:
+- [Survey support](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#survey_support)
+- [Real-world sentiment](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#real-world_sentiment)
+- [Addressing opposition](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#addressing_opposition)
 
 This section concerns **attitudes and acceptance**, which a traffic simulation
 cannot address. No simulation result is claimed here. The wiki's survey
@@ -291,7 +313,13 @@ periodically close for passing trains (`Train 1W96`, `Train 1W51`, etc.).
 
 ### 3.1 Pedestrian and Cyclist Safety
 
-**Wiki link:** [3.1 Enhanced Safety for Pedestrians and Cyclists](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#enhanced_safety_for_pedestrians_and_cyclists).
+**Wiki link:** [3.1 Enhanced Safety for Pedestrians and Cyclists](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#enhanced_safety_for_pedestrians_and_cyclists),
+specifically:
+- [Risk rises sharply with speed](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#risk_rises_sharply_with_speed)
+- [Pedestrian survival rates by impact speed](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#pedestrian_survival_rates_by_impact_speed)
+- [The 20mph threshold](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#the_20mph_threshold)
+- [Cyclists](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#cyclists)
+- [Children](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#children)
 
 **Partly covered.** The model reproduces the wiki's **premise** — that 20mph
 lowers vehicle speeds on the back roads — and the collision *context* (vehicle
@@ -300,8 +328,10 @@ casualty outcomes: SUMO here has no accident/casualty model, no pedestrian
 population (see §3.2), and no conflict-point analysis.
 
 Therefore the wiki's headline safety evidence — the 24% Welsh casualty
-reduction, and the
-[Key Table 1](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#key_tables)
+reduction
+([Table 2](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#table_2summary_of_casualty_changes_in_areas_with_20mph_limits)),
+and the
+[Table 1](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#table_1pedestrian_fatality_risk_vs_impact_speed)
 fatality-risk-vs-impact-speed curve (20mph: 1–5% vs 30mph: 20–45%) — is
 **cited as external evidence**, not derived from this simulation. What the model
 adds is confirmation that the *speed reduction itself* is achievable on the
@@ -331,7 +361,11 @@ level crossing compared between 30 and 20mph. That is an outstanding task.
 
 ### 3.3 Noise Pollution
 
-**Wiki link:** [3.3 Reduction in Noise Pollution](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#reduction_in_noise_pollution).
+**Wiki link:** [3.3 Reduction in Noise Pollution](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#reduction_in_noise_pollution),
+specifically:
+- [How much quieter?](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#how_much_quieter)
+- [European evidence](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#european_evidence)
+- [Why speed affects noise](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#why_speed_affects_noise)
 
 **Modelled.** SUMO's HBEFA noise model attaches a `noise` value (dB(A)) to every
 vehicle timestep; `sumo/analyze_noise.py` aggregates it:
@@ -349,13 +383,16 @@ python3 sumo/analyze_noise.py --now sumo/wool.dft_now.emissions.xml \
 | Off-peak 20mph | 62.59 | 62.77 | **−0.03 / −0.09** |
 
 **Finding:** the model shows a **small reduction (<0.2 dB(A))**, far below the
-wiki's cited 3 dB(A) (UK research) — see
-[Key Table 3](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#key_tables).
-This is expected: SUMO's noise model is dominated by vehicle class and
-acceleration, and a "signs-only" speed cap without traffic calming changes
-those only marginally. The wiki's larger figures come from physical measures
-and real-world measurement; the simulation should be read as a *lower bound* on
-the noise benefit, not a contradiction.
+wiki's cited 3 dB(A) (UK research), up to 6 dB(A) at peak — see
+[Table 3](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#table_3noise_reduction_from_30mph_to_20mph)
+and [European evidence](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#european_evidence)
+(Graz, Zurich). This is expected: SUMO's noise model is dominated by vehicle
+class and acceleration, and a "signs-only" speed cap without traffic calming
+changes those only marginally (see
+[Why speed affects noise](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#why_speed_affects_noise)).
+The wiki's larger figures come from physical measures and real-world
+measurement; the simulation should be read as a *lower bound* on the noise
+benefit, not a contradiction.
 
 ### 3.4 Community Liveability (Not Modelled)
 
@@ -369,7 +406,8 @@ the safety and active-travel sections above.
 
 ## 4. Case Studies (External Evidence)
 
-**Wiki links:** [4.1 Dorset Examples](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#dorset_examples),
+**Wiki links:** [4.1 Dorset Examples](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#dorset_examples)
+([locations progressing with Dorset Council](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#locations_progressing_with_dorset_council)),
 [4.2 UK-Wide Examples](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#uk-wide_examples).
 
 These sections are **external case-study evidence** (Bridport, Langton
@@ -382,7 +420,9 @@ study is the same village geometry those schemes would apply to.
 
 ## 5. Conclusion (Synthesis)
 
-**Wiki link:** [5. Conclusion and Recommendations](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#conclusion_and_recommendations).
+**Wiki link:** [5. Conclusion and Recommendations](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#conclusion_and_recommendations),
+specifically [5.1 Summary](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#summary)
+and [5.2 Recommendations](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#recommendations).
 
 This simulation supports the wiki's overall case, with these qualifications:
 
