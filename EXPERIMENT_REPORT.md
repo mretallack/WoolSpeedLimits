@@ -17,10 +17,9 @@ The comparison pairs (survey-calibrated demand, see `FLOW_CALIBRATION.md`) are:
    - 20mph scheme:  `wool.dft_offpeak_20mph.sumo.cfg`
 
 These use a **fixed** car mix (10% compliant / 70% normal / 20% speeder) at both
-limits. A **second set with DfT-calibrated driver behaviour** (`wool.cal_*.sumo.cfg`)
-is reported separately in [`SENSITIVITY_BEHAVIOUR.md`](SENSITIVITY_BEHAVIOUR.md);
-it produces a **mixed** emissions result that differs from this set (see the
-caveat in §2.1).
+limits. A **second set with DfT-calibrated driver behaviour**
+(`wool.cal_*.sumo.cfg`) produces a **mixed** emissions result that differs from
+this set — reported in [§2.4](#24-sensitivity-to-driver-speed-behaviour-the-cal-set).
 
 The 20mph scheme is defined by an **explicit list of roads**, not a blanket
 change. The authoritative definition is the Dorset Council consultation geoJSON
@@ -85,6 +84,8 @@ shorter journeys*, *How much quieter?*, *The 20mph threshold*, *Table 1–3*).
 travel (§3.2) and the safety *outcomes* in §3.1 are only partly covered because
 the model has no pedestrian population and no accident/casualty model. The
 attitudinal (§2.3) and case-study (§4) sections are out of scope by nature.
+Emissions are also tested under two driver-behaviour assumptions (`dft` §2.1 and
+DfT-calibrated `cal` §2.4), which give different answers.
 
 ---
 
@@ -136,13 +137,15 @@ them in *opposite* directions depending on the level of aggregation (see §2.1).
 
 ### Running Automated Batch Simulations & Stats Export
 ```bash
-cd WoolSimulation/sumo
-# Peak (controlled demand)
-sumo -c wool.dft_now.sumo.cfg        # 30mph baseline
-sumo -c wool.dft_20mph.sumo.cfg      # 20mph scheme
-# Off-peak
-sumo -c wool.dft_offpeak_now.sumo.cfg
-sumo -c wool.dft_offpeak_20mph.sumo.cfg
+cd sumo
+# Main set — fixed driver mix (`dft`)
+sumo -c wool.dft_now.sumo.cfg            # peak 30mph baseline
+sumo -c wool.dft_20mph.sumo.cfg          # peak 20mph scheme
+sumo -c wool.dft_offpeak_now.sumo.cfg    # off-peak 30mph
+sumo -c wool.dft_offpeak_20mph.sumo.cfg  # off-peak 20mph
+# Sensitivity set — DfT-calibrated driver behaviour (`cal`, see §2.4)
+sumo -c wool.cal_now.sumo.cfg            # peak 30mph
+sumo -c wool.cal_20mph.sumo.cfg          # peak 20mph
 ```
 
 Each config now produces **both**:
@@ -190,7 +193,13 @@ is therefore misleading, so `analyze_emissions.py` reports:
 - **vehicle_total** — total mass over all trips
 - **vehicle_perkm** — mass per km driven (Δ = is the *average km* cleaner)
 
-**% change under the 20mph scheme (peak hour, seed 42):**
+**These tables are for the `dft` set** — the fixed driver mix (10% compliant /
+70% normal / 20% speeder, identical at both limits), peak and off-peak, seed 42.
+The **`cal` set**, where the driver speed distribution is fitted to DfT 2024
+speed-compliance data instead, gives a **different** result and is reported in
+[§2.4](#24-sensitivity-to-driver-speed-behaviour-the-cal-set).
+
+**`dft` set — % change under the 20mph scheme (peak hour, seed 42):**
 
 | Metric | road_total | vehicle_total | vehicle_perkm |
 |---|---|---|---|
@@ -201,7 +210,7 @@ is therefore misleading, so `analyze_emissions.py` reports:
 | HC   | −7.10% | −7.01% | −8.24% |
 | fuel | −1.86% | −1.80% | −3.10% |
 
-**% change under the 20mph scheme (off-peak, seed 42):**
+**`dft` set — % change under the 20mph scheme (off-peak, seed 42):**
 
 | Metric | road_total | vehicle_total | vehicle_perkm |
 |---|---|---|---|
@@ -223,17 +232,12 @@ is therefore misleading, so `analyze_emissions.py` reports:
 - Net: for **this behaviour assumption only** (fixed 10%/70%/20% car mix, same
   at both limits) the peak result reduces emissions; it does **not** establish
   the conclusion generally — the DfT-calibrated set below gives a mixed result.
-- **Major caveat — the result is behaviour-dependent.** When the driver speed
-  distribution is instead fitted to DfT SPE0101 (2024) — where ~43% exceed on
-  30mph roads but ~76% on 20mph roads — the peak result becomes **mixed**. Per
-  km driven, five of six pollutants fall (only CO rises); absolute totals are
-  mixed because the 20mph scenario drives **+7.6% more vehicle-km** (PMx and HC
-  rise in the totals purely from that extra distance — see
-  [`SENSITIVITY_BEHAVIOUR.md`](SENSITIVITY_BEHAVIOUR.md)). The figures in §2.1
-  are for the fixed-mix (`dft`) set only; the DfT-calibrated (`cal`) set is
-  reported separately. This section's conclusion should therefore be read as
-  *conditional on the behaviour assumption and on whether per-km or total is
-  quoted*.
+- **Major caveat — the result is behaviour-dependent.** These figures are for
+  the fixed-mix (`dft`) set only. When the driver speed distribution is fitted
+  to DfT 2024 speed-compliance data (the `cal` set), the peak result becomes
+  **mixed** — see [§2.4](#24-sensitivity-to-driver-speed-behaviour-the-cal-set).
+  This section's conclusion should therefore be read as *conditional on the
+  behaviour assumption and on whether per-km or total is quoted*.
 - **Other caveats:** the conclusion is also *demand- and network-dependent*.
   Re-runs must use the calibrated demand (`FLOW_CALIBRATION.md`) and the
   consultation-defined network (`sumo/NETWORK_BUILD.md`).
@@ -317,8 +321,11 @@ specifically:
 - [How lower speeds can mean shorter journeys](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#how_lower_speeds_can_mean_shorter_journeys)
 - [Context matters, but delays are minimal](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#context_matters_but_delays_are_minimal)
 
-Measured journey-time and flow metrics (survey-calibrated demand, from
-`wool.dft_*.statistic.xml`):
+Measured journey-time and flow metrics for the **`dft` set** (survey-calibrated
+demand, from `wool.dft_*.statistic.xml`). The `cal` set's flow metrics are in
+[§2.4](#24-sensitivity-to-driver-speed-behaviour-the-cal-set); they show a
+larger journey-time improvement (−114 s) and reach the same conclusion — flow is
+never worse under 20mph.
 
 | Scenario | Avg duration | Avg time loss | Avg waiting | Completed trips |
 |---|---|---|---|---|
@@ -348,6 +355,128 @@ This section concerns **attitudes and acceptance**, which a traffic simulation
 cannot address. No simulation result is claimed here. The wiki's survey
 findings (~70% support, growing after implementation) should be evidenced by
 separate consultation data, not this model.
+
+---
+
+### 2.4 Sensitivity to Driver Speed Behaviour (the `cal` set)
+
+§2.1 and §2.2 use the **`dft` set**, whose driver mix (10% compliant / 70%
+normal / 20% speeder) is **fixed and applied identically at both limits**. That
+assumption is not evidence-based. This section repeats the simulation with the
+driver speed distribution **fitted to official DfT data**, to test whether the
+conclusions hold.
+
+#### What was changed
+
+Only the **driver speed distribution** differs; total demand is identical
+(1,382 veh/hr). Cars use a **continuous** `speedFactor` distribution
+(`normc(mean, sd, min, max)`), fitted so the modelled **% exceeding the limit**
+matches DfT SPE0101 (2024). See [`sumo/DFT_BEHAVIOUR.md`](sumo/DFT_BEHAVIOUR.md).
+
+| | 30mph scenario | 20mph scenario |
+|---|---|---|
+| Distribution | `normc(0.968, 0.180, …)` | `normc(1.141, 0.200, …)` |
+| DfT target % exceeding | 43% | 76% |
+| Achieved % exceeding | 42.7% | 74.7% |
+| Mean speed | 29.1 mph | 22.9 mph |
+
+The key DfT fact is that **non-compliance is much higher at 20mph than at
+30mph** — so unlike the `dft` set, the two scenarios use *different* speed
+spread.
+
+#### Result: the peak emissions picture becomes mixed
+
+Unlike the `dft` set (a clean reduction), the calibrated set is **mixed**.
+
+**Vehicle distance.** The 20mph scenario completes more trips, so **more
+vehicle-km are driven** — an absolute emission total = distance × rate:
+
+| | 30mph | 20mph | change |
+|---|---|---|---|
+| total vehicle-km | 6,007 | 6,464 | **+7.60%** |
+| completed trips | 1,012 | 1,059 | +47 |
+
+**Emissions (peak, `cal` set).** `total` = road_total; `per km` = vehicle_perkm:
+
+| Metric | total | per km | what drives the change |
+|---|---|---|---|
+| CO2  | **−4.81%** | −11.51% | rate (per-km fall overcomes the +7.6% volume) |
+| NOx  | +0.83% | −6.35% | mostly volume; rate improves |
+| PMx  | **+3.09%** | −4.43% | **volume only** — total rises purely from more km |
+| CO   | **+30.72%** | +21.15% | **rate** — a genuine per-km increase |
+| HC   | +1.72% | −5.66% | **volume only** — total rises purely from more km |
+| fuel | **−4.80%** | −11.50% | rate (per-km fall overcomes the +7.6% volume) |
+
+- **Per km driven, five of six pollutants fall** (CO2, fuel, NOx, PMx, HC);
+  only **CO rises per km**.
+- **PMx and HC rise in the totals only because more vehicle-km are driven**
+  — they are *not* per-vehicle increases.
+- HC is also the least stable metric (§2.1.1), so its small change is within
+  noise.
+
+**Journey time / flow (peak, `cal` set).**
+
+| Scenario | Avg duration | Time loss | Waiting | Completed |
+|---|---|---|---|---|
+| cal 30mph | 814.4 s | 433.9 s | 139.7 s | 1012 |
+| cal 20mph | 700.5 s | 362.6 s | 138.9 s | 1059 |
+
+- Journey time **−114.0 s**, time loss **−16.4%**, 47 more trips complete;
+  waiting essentially unchanged (−0.6%). Flow is **never worse**.
+
+**Noise (peak, `cal` set).** Fleet mean 61.56 → 62.49 dB(A): **+0.93 dB(A)**
+(no benefit, as in the `dft` set).
+
+#### Both sets side by side (peak, 20mph vs 30mph)
+
+| Peak | `dft` set (fixed mix) | `cal` set (DfT-fitted) |
+|---|---|---|
+| **vehicle-km driven** | +1.34% | **+7.60%** |
+| CO2 (total / per km) | −1.85% / −1.64% | **−4.81% / −11.51%** |
+| NOx (total / per km) | −2.99% / −4.09% | +0.83% / −6.35% |
+| PMx (total / per km) | −1.88% / −3.03% | **+3.09% / −4.43%** |
+| CO  (total / per km) | −0.70% / −2.03% | **+30.72% / +21.15%** |
+| HC  (total / per km) | −7.10% / −8.24% | +1.72% / −5.66% |
+| fuel (total / per km) | −1.86% / −3.10% | **−4.80% / −11.50%** |
+| journey time | +0.2 s | −114.0 s |
+| noise | +0.13 dB(A) | +0.93 dB(A) |
+
+#### Interpretation
+
+- The **emissions result depends strongly on the assumed driver behaviour** and
+  becomes **mixed rather than a clean sign** once behaviour is DfT-calibrated.
+- **Most apparent "increases" are a distance-driven volume effect, not a
+  per-vehicle effect** (the 20mph scenario drives +7.6% more vehicle-km).
+- **Robust across both sets:** journey time is **never worse** under 20mph, and
+  **noise shows no benefit**.
+- *(Superseded:* an earlier `cal` attempt used three discrete bands and gave
+  CO2 +1.41% / NOx +3.07%; the continuous fitted distribution above replaces it.)
+
+#### Caveats (apply to both sets)
+
+1. Both sets use the same **simplified network and estimated flows**; see
+   [`FLOW_CALIBRATION.md`](FLOW_CALIBRATION.md) and
+   [`sumo/NETWORK_BUILD.md`](sumo/NETWORK_BUILD.md).
+2. The speed distribution is a **truncated normal fitted to the % exceeding**,
+   not a full empirical histogram (DfT does not publish one); real distributions
+   are right-skewed, so the fitted mean speed sits ~1–1.5 mph below DfT's
+   rounded average — see [`sumo/DFT_BEHAVIOUR.md`](sumo/DFT_BEHAVIOUR.md).
+3. DfT compliance is measured on **free-flowing** roads; congested conditions
+   will differ, and this is a single-hour peak model.
+4. **Absolute totals conflate two effects**: distance driven and emissions per
+   km. Always report the **per-km** figure alongside a total, and state which is
+   meant.
+
+#### Reproducing (the `cal` set)
+
+```bash
+cd sumo
+sumo -c wool.cal_now.sumo.cfg
+sumo -c wool.cal_20mph.sumo.cfg
+python3 analyze_emissions.py \
+  --now-edge wool.cal_now.road_emissions.xml --now-veh wool.cal_now.emissions.xml --now-trip wool.cal_now.tripinfo.xml \
+  --scheme-edge wool.cal_20mph.road_emissions.xml --scheme-veh wool.cal_20mph.emissions.xml --scheme-trip wool.cal_20mph.tripinfo.xml
+```
 
 ---
 
@@ -432,12 +561,15 @@ python3 sumo/analyze_noise.py --now sumo/wool.dft_now.emissions.xml \
                               --scheme sumo/wool.dft_20mph.emissions.xml
 ```
 
-| Scenario | fleet mean dB(A) | per-vehicle mean dB(A) | Δ |
+| Scenario (`dft` set) | fleet mean dB(A) | per-vehicle mean dB(A) | Δ |
 |---|---|---|---|
 | Peak 30mph | 61.17 | 61.55 | — |
 | Peak 20mph | 61.30 | 61.64 | **+0.13 / +0.09** |
 | Off-peak 30mph | 62.63 | 62.86 | — |
 | Off-peak 20mph | 62.64 | 62.86 | **+0.01 / +0.00** |
+
+The `cal` set agrees (no benefit): fleet mean +0.93 dB(A) at peak
+([§2.4](#24-sensitivity-to-driver-speed-behaviour-the-cal-set)).
 
 **Finding:** the model shows **essentially no change** — a **+0.13 dB(A)** rise
 at peak (within noise) and **+0.01 dB(A)** off-peak. This is far below the

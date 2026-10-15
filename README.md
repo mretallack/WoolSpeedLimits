@@ -16,17 +16,16 @@ the two result documents below.
 | # | Test set | Behaviour assumption | Configs | Results doc |
 |---|---|---|---|---|
 | 1 | **Main scenarios** | fixed car mix (10% compliant / 70% normal / 20% speeder), same for both limits | `sumo/wool.dft_{now,20mph}.sumo.cfg` (peak), `wool.dft_offpeak_{now,20mph}.sumo.cfg` | [`EXPERIMENT_REPORT.md`](EXPERIMENT_REPORT.md) |
-| 2 | **DfT-calibrated behaviour (sensitivity)** | driver compliance from DfT SPE0101 (2024): 43% exceed on 30mph, 76% on 20mph | `sumo/wool.cal_{now,20mph}.sumo.cfg` | [`SENSITIVITY_BEHAVIOUR.md`](SENSITIVITY_BEHAVIOUR.md) |
+| 2 | **DfT-calibrated behaviour (sensitivity)** | driver compliance from DfT SPE0101 (2024): 43% exceed on 30mph, 76% on 20mph | `sumo/wool.cal_{now,20mph}.sumo.cfg` | [`EXPERIMENT_REPORT.md`](EXPERIMENT_REPORT.md) §2.4 |
 
 Both sets use the same survey-calibrated demand and the same two networks
 (`wool.net.xml` vs `wool.20mph.net.xml`), so they isolate the behaviour
 assumption.
 
 ## Result documents
-- **[`EXPERIMENT_REPORT.md`](EXPERIMENT_REPORT.md)** — main analysis (emissions,
-  flow/journey times, noise), mapped section-by-section to the Wool Speed Limit wiki.
-- **[`SENSITIVITY_BEHAVIOUR.md`](SENSITIVITY_BEHAVIOUR.md)** — sensitivity of the
-  result to driver speed behaviour (DfT-calibrated).
+- **[`EXPERIMENT_REPORT.md`](EXPERIMENT_REPORT.md)** — the full analysis:
+  emissions, flow/journey times, noise, **and the driver-behaviour sensitivity
+  (§2.4)**, mapped section-by-section to the Wool Speed Limit wiki.
 - **[`FLOW_CALIBRATION.md`](FLOW_CALIBRATION.md)** — how traffic demand was
   calibrated to the WoolRATH survey.
 - **[`sumo/NETWORK_BUILD.md`](sumo/NETWORK_BUILD.md)** — how the 20mph network is

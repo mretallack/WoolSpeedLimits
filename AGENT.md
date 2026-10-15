@@ -19,7 +19,7 @@ When running or modifying simulations:
    - **DfT-calibrated set (`cal`)**: driver compliance from DfT SPE0101 (2024),
      different mix per limit. `wool.cal_now.sumo.cfg` vs `wool.cal_20mph.sumo.cfg`
      (routes `wool.rou.dft_cal_30.xml` / `wool.rou.dft_cal_20.xml`).
-     Results doc: `SENSITIVITY_BEHAVIOUR.md`; data: `sumo/DFT_BEHAVIOUR.md`.
+     Results: `EXPERIMENT_REPORT.md` §2.4; data: `sumo/DFT_BEHAVIOUR.md`.
    - Always use controlled random seeds / identical demand between baseline and
      scheme. The `.v2` and `.dft_cal_*` route files are survey-calibrated; **do
      not revert** to the old over-loaded `wool.rou.dft_controlled.xml` /
@@ -43,7 +43,7 @@ they are aggregated, so **never report a single figure**. Report:
 Analyse with `sumo/analyze_emissions.py` (prints road_total, vehicle_total and
 vehicle_perkm side by side). Also **state the behaviour assumption**: the fixed
 `dft` set and the DfT-calibrated `cal` set give different answers. See
-`EXPERIMENT_REPORT.md` §2.1 and `SENSITIVITY_BEHAVIOUR.md`.
+`EXPERIMENT_REPORT.md` §2.1 and §2.4.
 
 ## Saturation guard (run this after every demand change)
 Before trusting any emissions result, confirm the run did not saturate:
