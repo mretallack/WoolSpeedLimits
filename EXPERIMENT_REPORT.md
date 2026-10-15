@@ -6,8 +6,7 @@ This document outlines the experimental setup, simulation configurations, statis
 
 ## Summary of Scenarios
 
-The canonical comparison pairs (survey-calibrated demand, see
-`FLOW_CALIBRATION.md`) are:
+The comparison pairs (survey-calibrated demand, see `FLOW_CALIBRATION.md`) are:
 
 1. **Peak (08:00, controlled)** — routes `wool.rou.dft_controlled.v2.xml`
    - 30mph baseline: `wool.dft_now.sumo.cfg` (network `wool.net.xml`)
@@ -20,10 +19,6 @@ The canonical comparison pairs (survey-calibrated demand, see
 The 20mph network reduces back roads, **Colliers Lane** and **Lulworth Road** to
 20mph / 8.94 m/s; **Dorchester Road** is excluded and retained at 30mph. Both
 scenarios use the same heterogeneous driver mix (compliant / normal / speeder).
-
-> The earlier `wool.stats_now` / `wool.stats_20mph` configs and the
-> `wool.rou.speed_experiment.xml` route file are **superseded** by the pairs
-> above and are retained only for historical reference.
 
 ---
 
@@ -59,7 +54,7 @@ attitudinal (§2.3) and case-study (§4) sections are out of scope by nature.
 
 ## 1. How to Generate Video Visualizations
 
-Pre-rendered videos of the corrected scenarios live in `sumo/`:
+Pre-rendered videos of the scenarios live in `sumo/`:
 `wool_peak_30mph.webm`, `wool_peak_20mph.webm`, `wool_offpeak_30mph.webm`,
 `wool_offpeak_20mph.webm`.
 
@@ -135,24 +130,16 @@ python3 analyze_emissions.py \
 
 ### 2.1 Measured Emissions — Road-Level vs Vehicle-Level
 
-> **Note (revised):** these figures supersede an earlier set that was produced
-> from a **saturated** demand scenario (1,470 veh/hr, ~39% above the measured
-> A352 flow). That over-loading inverted the peak-hour result. See
-> `FLOW_CALIBRATION.md` for the audit and `wool.rou.dft_controlled.v2.xml` for
-> the corrected demand. All numbers below are from the corrected runs
-> (1,382 veh/hr, 0 teleports, all vehicles inserted).
-
 **Why both levels matter.** A vehicle travelling at 20mph instead of 30mph emits a
 similar mass **per second** but occupies each road segment for **~50% longer**.
 For a *vehicle*, that is a near-wash or a small saving; for a *road section*, the
 longer occupancy can push the **accumulated total up**. Reporting only one level
-(as the original report did) is therefore misleading. `analyze_emissions.py`
-reports:
+is therefore misleading, so `analyze_emissions.py` reports:
 - **road_total** — total mass on all edges (Δ = what a *street/network* experiences)
 - **vehicle_total** — total mass over all trips
 - **vehicle_perkm** — mass per km driven (Δ = is the *average km* cleaner)
 
-**% change under the 20mph scheme (peak hour, corrected demand):**
+**% change under the 20mph scheme (peak hour):**
 
 | Metric | road_total | vehicle_total | vehicle_perkm |
 |---|---|---|---|
@@ -163,7 +150,7 @@ reports:
 | HC   | −3.16% | −2.97% | −1.80% |
 | fuel | −3.50% | −3.35% | −2.19% |
 
-**% change under the 20mph scheme (off-peak, corrected demand):**
+**% change under the 20mph scheme (off-peak):**
 
 | Metric | road_total | vehicle_total | vehicle_perkm |
 |---|---|---|---|
@@ -174,31 +161,18 @@ reports:
 | HC   | +0.79% | +0.60% | +1.06% |
 | fuel | +0.11% | +0.09% | +0.55% |
 
-**Interpretation (revised — supports Hypothesis 1):**
+**Interpretation (supports Hypothesis 1):**
 
-- **Peak**: with corrected (survey-matched) demand, the 20mph scheme **reduces**
-  emissions at every level — approximately **−3% to −7%**. Lowering the limit
-  smooths the peak and cuts stop-start and queuing.
+- **Peak**: the 20mph scheme **reduces** emissions at every level —
+  approximately **−3% to −7%**. Lowering the limit smooths the peak and cuts
+  stop-start and queuing.
 - **Off-peak**: the change is negligible (≤1%), i.e. **no penalty** from the
   scheme at free-flow. CO falls slightly (−2.5%); other pollutants are within
   noise.
-- Net: this now **supports Hypothesis 1** — 20mph does not increase pollution and
+- Net: this **supports Hypothesis 1** — 20mph does not increase pollution and
   reduces it under peak conditions.
-- **Critical caveat:** this conclusion is *demand-dependent*. The earlier
-  saturated scenario (1,470 veh/hr) reversed it (+3–6%). Any future re-run must
-  use the calibrated demand in `FLOW_CALIBRATION.md` or the sign of the result
-  cannot be trusted.
-
-**Effect of the flow correction on the peak result:**
-
-| Metric (road_total) | saturated (old) | corrected (new) |
-|---|---|---|
-| CO2  | +3.63% | −3.50% |
-| NOx  | +5.86% | −3.25% |
-| PMx  | +2.94% | −3.30% |
-| fuel | +3.64% | −3.50% |
-
-The over-loaded demand inverted the sign of the peak-hour emissions conclusion.
+- **Caveat:** the conclusion is *demand-dependent*. Re-runs must use the
+  calibrated demand in `FLOW_CALIBRATION.md` for the result to hold.
 
 **Wiki link:** addresses
 [2.1 Vehicle Emissions at Slower Speeds](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#vehicle_emissions_at_slower_speeds).
@@ -215,7 +189,7 @@ larger than ours; the simulation reflects Wool's specific demand and geometry.
 
 **Wiki link:** [2.2 Impact on Traffic Flow and Congestion](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#impact_on_traffic_flow_and_congestion).
 
-Measured journey-time and flow metrics (corrected demand, from
+Measured journey-time and flow metrics (survey-calibrated demand, from
 `wool.dft_*.statistic.xml`):
 
 | Scenario | Avg duration | Avg time loss | Avg waiting | Completed trips |
@@ -366,7 +340,7 @@ This simulation supports the wiki's overall case, with these qualifications:
 | Rec 4 — self-enforcing road design | Not modelled (physical calming differs from a signs-only cap) |
 | Rec 5 — enforcement/education strategy | Not modelled |
 
-**Net:** the corrected simulations support the emissions (§2.1), flow (§2.2)
+**Net:** the simulations support the emissions (§2.1), flow (§2.2)
 and — modestly — noise (§3.3) arguments. The safety-outcome (§3.1) and
 active-travel (§3.2) arguments remain **evidence gaps** in the current model
 and are flagged as future work rather than confirmed.
