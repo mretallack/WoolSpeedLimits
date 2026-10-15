@@ -1,0 +1,48 @@
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
+
+    <!-- ================================================================
+         CALIBRATED-BEHAVIOUR PEAK DEMAND (20mph scheme) — "dft_cal" set
+         Driver behaviour split from DfT SPE0101 (2024, cars):
+             20 mph roads: 76% exceed -> 24% at/below, 66% 1-10 over, 10% 10+ over
+         (see Sources/spe0101.ods and DFT_BEHAVIOUR.md)
+         Same survey-calibrated volumes; only the driver-behaviour mix changes.
+         ================================================================ -->
+
+    <vType id="MCY" vClass="motorcycle" guiShape="motorcycle" maxSpeed="35.0" speedFactor="1.1" speedDev="0.15" />
+    <vType id="BUS" vClass="bus" guiShape="bus" maxSpeed="22.0" speedFactor="0.95" />
+    <vType id="LGV" vClass="truck" guiShape="truck" maxSpeed="25.0" speedFactor="1.0" />
+    <vType id="HGV" vClass="trailer" guiShape="truck/semitrailer" maxSpeed="22.0" speedFactor="0.9" />
+
+    <!-- Car behaviour bands: on 20mph roads non-compliance is much higher,
+         so the "mid"/"high" bands carry more of the traffic and larger factors. -->
+    <vType id="CAR_LOW"  vClass="passenger" guiShape="passenger" color="0,255,0"  maxSpeed="45.0" speedFactor="0.95" speedDev="0.05" />
+    <vType id="CAR_MID"  vClass="passenger" guiShape="passenger" color="0,0,255"  maxSpeed="45.0" speedFactor="1.20" speedDev="0.10" />
+    <vType id="CAR_HIGH" vClass="passenger" guiShape="passenger" color="255,0,0"  maxSpeed="45.0" speedFactor="1.60" speedDev="0.10" />
+
+    <!-- A352 W->E cars: 518 split 24/66/10 -> 124 / 342 / 52 -->
+    <flow id="we_car_low"  from="348027517" to="--13195" vehsPerHour="124" type="CAR_LOW"  begin="0" end="3600" departLane="best" departSpeed="max" />
+    <flow id="we_car_mid"  from="348027517" to="--13195" vehsPerHour="342" type="CAR_MID"  begin="0" end="3600" departLane="best" departSpeed="max" />
+    <flow id="we_car_high" from="348027517" to="--13195" vehsPerHour="52"  type="CAR_HIGH" begin="0" end="3600" departLane="best" departSpeed="max" />
+
+    <flow id="west_to_east_1" from="348027517" to="--13195" vehsPerHour="12" type="MCY" begin="0" end="3600" />
+    <flow id="west_to_east_3" from="348027517" to="--13195" vehsPerHour="2"  type="BUS" begin="0" end="3600" />
+    <flow id="west_to_east_4" from="348027517" to="--13195" vehsPerHour="49" type="LGV" begin="0" end="3600" />
+    <flow id="west_to_east_5" from="348027517" to="--13195" vehsPerHour="25" type="HGV" begin="0" end="3600" />
+
+    <flow id="west_to_east_10" from="4691379#0" to="--13195" vehsPerHour="141" type="CAR_MID" begin="0" end="3600" />
+
+    <flow id="south_to_north_0" from="-143541622" to="-144378564" vehsPerHour="1"  type="MCY" begin="0" end="3600" />
+    <flow id="south_to_north_1" from="-143541622" to="-144378564" vehsPerHour="49" type="CAR_MID" begin="0" end="3600" />
+    <flow id="south_to_north_2" from="-143541622" to="-144378564" vehsPerHour="2"  type="BUS" begin="0" end="3600" />
+    <flow id="south_to_north_3" from="-143541622" to="-144378564" vehsPerHour="5"  type="LGV" begin="0" end="3600" />
+    <flow id="south_to_north_4" from="-143541622" to="-144378564" vehsPerHour="1"  type="HGV" begin="0" end="3600" />
+
+    <!-- A352 E->W cars: 500 split 24/66/10 -> 120 / 330 / 50 -->
+    <flow id="east_to_west_0" from="-13195" to="-348027517" vehsPerHour="6"   type="MCY" begin="0" end="3600" />
+    <flow id="east_to_west_1" from="-13195" to="-348027517" vehsPerHour="120" type="CAR_LOW" begin="0" end="3600" />
+    <flow id="east_to_west_5" from="-13195" to="-348027517" vehsPerHour="330" type="CAR_MID" begin="0" end="3600" />
+    <flow id="east_to_west_6" from="-13195" to="-348027517" vehsPerHour="50"  type="CAR_HIGH" begin="0" end="3600" />
+    <flow id="east_to_west_2" from="-13195" to="-348027517" vehsPerHour="5"   type="BUS" begin="0" end="3600" />
+    <flow id="east_to_west_3" from="-13195" to="-348027517" vehsPerHour="49"  type="LGV" begin="0" end="3600" />
+    <flow id="east_to_west_4" from="-13195" to="-348027517" vehsPerHour="17"  type="HGV" begin="0" end="3600" />
+</routes>

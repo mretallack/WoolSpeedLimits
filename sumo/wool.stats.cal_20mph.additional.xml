@@ -1,0 +1,5 @@
+<additional>
+    <!-- Road-level emissions (per edge, per 60s interval) for the cal_20mph scenario. -->
+    <edgeData id="emission_stats" type="emissions" freq="60" file="wool.cal_20mph.road_emissions.xml"/>
+    <edgeData id="lane_stats" type="traffic" freq="60" file="wool.cal_20mph.traffic_stats.xml"/>
+</additional>

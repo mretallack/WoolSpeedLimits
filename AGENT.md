@@ -11,13 +11,22 @@ This repository (`TrafficSim` / `WoolSimulation`) models traffic simulation scen
 
 ## Working with the Simulation
 When running or modifying simulations:
-1. Always use controlled random seeds or identical route files between the 30mph baseline and 20mph proposed scheme to ensure valid before-and-after comparisons. Primary comparison pairs:
-   - **Peak (controlled):** `wool.dft_now.sumo.cfg` vs `wool.dft_20mph.sumo.cfg` (routes `wool.rou.dft_controlled.v2.xml`).
-   - **Off-peak:** `wool.dft_offpeak_now.sumo.cfg` vs `wool.dft_offpeak_20mph.sumo.cfg` (routes `wool.rou.dft_offpeak.v2.xml`).
-   - The `.v2` route files are survey-calibrated. **Do not revert to the old**
-     `wool.rou.dft_controlled.xml` / `wool.rou.dft_offpeak.xml`: those over-loaded
-     the peak network (~39% above measured flow) and inverted the emissions
-     result. See `FLOW_CALIBRATION.md`.
+1. There are **two comparison sets**; keep them separate and always report which one a number comes from:
+   - **Main set (`dft`)**: fixed car mix (10%/70%/20%). Peak `wool.dft_now.sumo.cfg`
+     vs `wool.dft_20mph.sumo.cfg` (routes `wool.rou.dft_controlled.v2.xml`);
+     off-peak `wool.dft_offpeak_{now,20mph}.sumo.cfg` (routes `wool.rou.dft_offpeak.v2.xml`).
+     Results doc: `EXPERIMENT_REPORT.md`.
+   - **DfT-calibrated set (`cal`)**: driver compliance from DfT SPE0101 (2024),
+     different mix per limit. `wool.cal_now.sumo.cfg` vs `wool.cal_20mph.sumo.cfg`
+     (routes `wool.rou.dft_cal_30.xml` / `wool.rou.dft_cal_20.xml`).
+     Results doc: `SENSITIVITY_BEHAVIOUR.md`; data: `sumo/DFT_BEHAVIOUR.md`.
+   - Always use controlled random seeds / identical demand between baseline and
+     scheme. The `.v2` and `.dft_cal_*` route files are survey-calibrated; **do
+     not revert** to the old over-loaded `wool.rou.dft_controlled.xml` /
+     `wool.rou.dft_offpeak.xml` (see `FLOW_CALIBRATION.md`).
+   - **The emissions result depends on the behaviour assumption**: the `dft` set
+     shows a reduction, the `cal` set an increase. State the assumption with any
+     emissions claim.
 2. Run SUMO using `sumo -c <config>.sumo.cfg`.
 3. Respect submodules (`WoolSimulation`) when committing and pushing changes.
 

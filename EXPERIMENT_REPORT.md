@@ -16,6 +16,11 @@ The comparison pairs (survey-calibrated demand, see `FLOW_CALIBRATION.md`) are:
    - 30mph baseline: `wool.dft_offpeak_now.sumo.cfg`
    - 20mph scheme:  `wool.dft_offpeak_20mph.sumo.cfg`
 
+These use a **fixed** car mix (10% compliant / 70% normal / 20% speeder) at both
+limits. A **second set with DfT-calibrated driver behaviour** (`wool.cal_*.sumo.cfg`)
+is reported separately in [`SENSITIVITY_BEHAVIOUR.md`](SENSITIVITY_BEHAVIOUR.md);
+it reaches the opposite emissions conclusion (see the caveat in §2.1).
+
 The 20mph scheme is defined by an **explicit list of roads**, not a blanket
 change. The authoritative definition is the Dorset Council consultation geoJSON
 `Sources/Wool20MphRoads.json`: **41 segments across 35 streets**, including
@@ -199,11 +204,19 @@ is therefore misleading, so `analyze_emissions.py` reports:
 - **Off-peak**: the change is small (|Δ| ≤ 0.6% except HC), i.e. **no
   meaningful penalty** from the scheme at free-flow. HC is within run-to-run
   tolerance (see §2.1.1).
-- Net: this **supports Hypothesis 1** — 20mph does not increase pollution and
-  reduces it under peak conditions.
-- **Caveat:** the conclusion is *demand- and network-dependent*. Re-runs must
-  use the calibrated demand (`FLOW_CALIBRATION.md`) and the consultation-defined
-  network (`sumo/NETWORK_BUILD.md`).
+- Net: for **this behaviour assumption** (fixed 10%/70%/20% car mix, same at
+  both limits) the result **supports Hypothesis 1** — 20mph does not increase
+  pollution and reduces it under peak conditions.
+- **Major caveat — the result is behaviour-dependent.** When the driver mix is
+  instead calibrated to DfT SPE0101 (2024) — where 43% exceed on 30mph roads but
+  76% on 20mph roads — the peak emissions result **reverses to an increase**
+  (see [`SENSITIVITY_BEHAVIOUR.md`](SENSITIVITY_BEHAVIOUR.md)). The figures in
+  §2.1 are for the fixed-mix (`dft`) set only; the DfT-calibrated (`cal`) set is
+  reported separately. This section's conclusion should therefore be read as
+  *conditional on the behaviour assumption*.
+- **Other caveats:** the conclusion is also *demand- and network-dependent*.
+  Re-runs must use the calibrated demand (`FLOW_CALIBRATION.md`) and the
+  consultation-defined network (`sumo/NETWORK_BUILD.md`).
 
 ### 2.1.1 Reproducibility, run-to-run variation and the HC metric
 

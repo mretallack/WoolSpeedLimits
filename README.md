@@ -1,23 +1,68 @@
 # Wool Traffic Simulation & Speed Limit Analysis
 
-This repository contains SUMO (Simulation of Urban MObility) models and experimental frameworks for evaluating the proposed 20mph speed limit in the village of Wool, Dorset, as detailed in the [Wool Speed Limit Wiki](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit).
+This repository contains SUMO (Simulation of Urban MObility) models evaluating
+the proposed 20mph speed limit in the village of Wool, Dorset, as detailed in
+the [Wool Speed Limit Wiki](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit).
+
+**Headline finding (caveated):** whether 20mph *reduces* or *increases* modelled
+emissions depends on the assumed driver behaviour. With DfT-calibrated
+non-compliance (the evidence-based set) it **increases** peak emissions; journey
+times improve slightly in all sets. See the two result documents below.
+
+## Tests we have run
+
+| # | Test set | Behaviour assumption | Configs | Results doc |
+|---|---|---|---|---|
+| 1 | **Main scenarios** | fixed car mix (10% compliant / 70% normal / 20% speeder), same for both limits | `sumo/wool.dft_{now,20mph}.sumo.cfg` (peak), `wool.dft_offpeak_{now,20mph}.sumo.cfg` | [`EXPERIMENT_REPORT.md`](EXPERIMENT_REPORT.md) |
+| 2 | **DfT-calibrated behaviour (sensitivity)** | driver compliance from DfT SPE0101 (2024): 43% exceed on 30mph, 76% on 20mph | `sumo/wool.cal_{now,20mph}.sumo.cfg` | [`SENSITIVITY_BEHAVIOUR.md`](SENSITIVITY_BEHAVIOUR.md) |
+
+Both sets use the same survey-calibrated demand and the same two networks
+(`wool.net.xml` vs `wool.20mph.net.xml`), so they isolate the behaviour
+assumption.
+
+## Result documents
+- **[`EXPERIMENT_REPORT.md`](EXPERIMENT_REPORT.md)** — main analysis (emissions,
+  flow/journey times, noise), mapped section-by-section to the Wool Speed Limit wiki.
+- **[`SENSITIVITY_BEHAVIOUR.md`](SENSITIVITY_BEHAVIOUR.md)** — sensitivity of the
+  result to driver speed behaviour (DfT-calibrated).
+- **[`FLOW_CALIBRATION.md`](FLOW_CALIBRATION.md)** — how traffic demand was
+  calibrated to the WoolRATH survey.
+- **[`sumo/NETWORK_BUILD.md`](sumo/NETWORK_BUILD.md)** — how the 20mph network is
+  derived from the Dorset Council consultation.
+- **[`sumo/DFT_BEHAVIOUR.md`](sumo/DFT_BEHAVIOUR.md)** — the DfT compliance data
+  and the behaviour bands used.
+- **[`REPRODUCING.md`](REPRODUCING.md)** — exact commands to regenerate results.
 
 ## Methodology & DfT Speed Compliance Data (`Sources/`)
-To model realistic driver behaviors across different vehicle classes (Cars, Vans/LGVs, HGVs, Buses, Motorcycles), we incorporate official Department for Transport (DfT) vehicle speed compliance statistics (SPE01 series, such as **SPE0101** stored in `Sources/SPE0101.ods`). 
+Driver behaviour is parameterised from official Department for Transport (DfT)
+**vehicle speed compliance** statistics (SPE01 series), see
+[`sumo/DFT_BEHAVIOUR.md`](sumo/DFT_BEHAVIOUR.md). Source files in `Sources/`:
+`spe0101.ods` (% exceeding the limit by road type/vehicle type), `spe0113.ods`
+(by hour of day), `spe0102.ods` (free-flow speeds), `spe0116.ods`;
+`spe0201_offences.ods` is speeding **offences** (not compliance).
 
-By applying empirical speed distributions and compliance rates by road type and vehicle class:
-- We capture realistic free-flow speeds, speeders, and compliant drivers.
-- We ensure identical trip demands and random seed controls between the **"Now" (30mph baseline)** and **"With 20mph" (proposed scheme)** scenarios.
-- The 20mph scheme is defined by an **explicit list of roads** — not a blanket change. Roads become 20mph **only if listed** in the Dorset Council consultation; every other road keeps its existing limit. The authoritative list is `Sources/Wool20MphRoads.json` (the consultation geoJSON, 41 segments across 35 streets, including **Colliers Lane** and **Lulworth Road**). **Dorchester Road** is not listed, so it stays at its current (higher) limit. `wool.20mph.net.xml` is built from this list — see `sumo/NETWORK_BUILD.md` (method, anomalies and omissions).
+- Two comparison sets are provided (fixed-mix and DfT-calibrated) to show the
+  sensitivity of the result to this assumption.
+- Identical trip demands and fixed seed (42) between the **"Now" (30mph
+  baseline)** and **"With 20mph" (proposed scheme)** scenarios.
+- The 20mph scheme is defined by an **explicit list of roads** — not a blanket
+  change. Roads become 20mph **only if listed** in the Dorset Council
+  consultation; every other road keeps its existing limit. The authoritative
+  list is `Sources/Wool20MphRoads.json` (41 segments across 35 streets,
+  including **Colliers Lane** and **Lulworth Road**). **Dorchester Road** is not
+  listed, so it stays at its current (higher) limit. `wool.20mph.net.xml` is
+  built from this list — see [`sumo/NETWORK_BUILD.md`](sumo/NETWORK_BUILD.md).
 
 ## Repository Structure
-- `WoolSimulation/sumo/`: SUMO network files (`wool.net.xml`, `wool.20mph.net.xml`), additional configuration files (traffic lights, level crossings, emissions), and runner configs.
-- `WoolSimulation/Sources/`: DfT speed compliance data tables (SPE01).
-- `WoolSimulation/EXPERIMENT_REPORT.md`: Detailed findings, emission metrics, and non-vehicle/pedestrian/railway interaction models.
-- `WoolSimulation/AGENT.md`: Operational instructions for AI agents.
+- `Sources/` — DfT speed-compliance data and the consultation geoJSON (see above).
+- `sumo/` — SUMO networks (`wool.net.xml`, `wool.20mph.net.xml`), route files,
+  `*.sumo.cfg` configs, analysis scripts (`analyze_emissions.py`,
+  `analyze_noise.py`) and build tooling (`build_20mph_net.py`).
+- `AGENT.md` — operational instructions for AI agents.
 
 ## Running Simulations
-See `WoolSimulation/EXPERIMENT_REPORT.md` for full instructions on running simulations in `sumo` or `sumo-gui`.
+See [`REPRODUCING.md`](REPRODUCING.md) for full instructions to run any test set
+in `sumo` or `sumo-gui`.
 
 
 ## Traffic Data & Statistics Origin (WoolRATH Survey)
