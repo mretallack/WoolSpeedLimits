@@ -20,6 +20,13 @@ The 20mph network reduces back roads, **Colliers Lane** and **Lulworth Road** to
 20mph / 8.94 m/s; **Dorchester Road** is excluded and retained at 30mph. Both
 scenarios use the same heterogeneous driver mix (compliant / normal / speeder).
 
+**Seeding and repeatability.** All four configs now carry a fixed seed
+(`<seed value="42"/>`). Repeated runs of the same config are identical to the
+last digit, so the numbers below are reproducible — see `REPRODUCING.md`. The
+results in this report were produced by re-running all four scenarios with the
+fixed seed; where they differ from an earlier draft (which used unseeded runs),
+the cause and magnitude are documented in [§2.1.1](#211-reproducibility-run-to-run-variation-and-the-hc-metric).
+
 ---
 
 ## Wiki Coverage Map
@@ -139,51 +146,98 @@ is therefore misleading, so `analyze_emissions.py` reports:
 - **vehicle_total** — total mass over all trips
 - **vehicle_perkm** — mass per km driven (Δ = is the *average km* cleaner)
 
-**% change under the 20mph scheme (peak hour):**
+**% change under the 20mph scheme (peak hour, seed 42):**
 
 | Metric | road_total | vehicle_total | vehicle_perkm |
 |---|---|---|---|
-| CO2  | −3.50% | −3.35% | −2.19% |
-| NOx  | −3.25% | −3.18% | −2.01% |
-| PMx  | −3.30% | −3.23% | −2.07% |
-| CO   | −6.76% | −6.65% | −5.52% |
-| HC   | −3.16% | −2.97% | −1.80% |
-| fuel | −3.50% | −3.35% | −2.19% |
+| CO2  | −2.59% | −2.37% | −1.64% |
+| NOx  | −2.30% | −2.16% | −1.42% |
+| PMx  | −2.19% | −2.10% | −1.36% |
+| CO   | −7.00% | −6.86% | −6.16% |
+| HC   | −6.53% | −6.49% | −5.79% |
+| fuel | −2.59% | −2.37% | −1.64% |
 
-**% change under the 20mph scheme (off-peak):**
+**% change under the 20mph scheme (off-peak, seed 42):**
 
 | Metric | road_total | vehicle_total | vehicle_perkm |
 |---|---|---|---|
-| CO2  | +0.11% | +0.09% | +0.55% |
-| NOx  | +0.37% | +0.34% | +0.80% |
-| PMx  | +0.61% | +0.61% | +1.07% |
-| CO   | −2.51% | −2.46% | −2.01% |
-| HC   | +0.79% | +0.60% | +1.06% |
-| fuel | +0.11% | +0.09% | +0.55% |
+| CO2  | −0.38% | −0.30% | −0.16% |
+| NOx  | +0.19% | +0.28% | +0.43% |
+| PMx  | +0.76% | +0.76% | +0.90% |
+| CO   | −2.38% | −2.42% | −2.28% |
+| HC   | +0.00% | −0.11% | +0.03% |
+| fuel | −0.38% | −0.30% | −0.16% |
 
 **Interpretation (supports Hypothesis 1):**
 
-- **Peak**: the 20mph scheme **reduces** emissions at every level —
-  approximately **−3% to −7%**. Lowering the limit smooths the peak and cuts
-  stop-start and queuing.
-- **Off-peak**: the change is negligible (≤1%), i.e. **no penalty** from the
-  scheme at free-flow. CO falls slightly (−2.5%); other pollutants are within
-  noise.
+- **Peak**: the 20mph scheme **reduces** emissions at every level. The
+  bulk pollutants (CO2, NOx, PMx, fuel) fall **−1.4% to −2.6%** and CO/HC fall
+  more. Lowering the limit smooths the peak and cuts stop-start and queuing.
+- **Off-peak**: the change is negligible (|Δ| ≤ 0.9%), i.e. **no penalty** from
+  the scheme at free-flow. CO falls slightly (−2.4%); other pollutants are
+  within run-to-run tolerance (see below).
 - Net: this **supports Hypothesis 1** — 20mph does not increase pollution and
   reduces it under peak conditions.
 - **Caveat:** the conclusion is *demand-dependent*. Re-runs must use the
   calibrated demand in `FLOW_CALIBRATION.md` for the result to hold.
 
+### 2.1.1 Reproducibility, run-to-run variation and the HC metric
+
+**Setup.** Each comparison config now sets a fixed seed (`<seed value="42"/>`).
+Two consecutive runs of the same config produce results that are identical to
+the last digit — only the `generated on …` timestamp comment in the XML header
+differs. All figures in §2.1 and §3.3 come from these seeded runs, and every raw
+file can be regenerated per `REPRODUCING.md`.
+
+**Why numbers changed from an earlier draft of this report.** The report
+previously quoted figures produced from **unseeded** runs (SUMO's default
+time-based seed). Those runs were not reproducible. Re-running with seed 42
+changed the reported percentages while leaving every *direction* of every
+finding unchanged. The seeded values above supersede them.
+
+**Run-to-run variation by pollutant (fact, from the two data sets).**
+The change in the *absolute* emitted mass between the unseeded and the seeded
+run is small for most pollutants but distinctly larger for HC and CO:
+
+| Peak 30mph, absolute road_total | unseeded run | seeded run | difference |
+|---|---|---|---|
+| CO2  | 2,625,789,854.7 | 2,625,806,612.7 | +0.00% |
+| NOx  | 910,120.3 | 913,848.2 | +0.41% |
+| PMx  | 267,986.5 | 267,895.7 | −0.03% |
+| fuel | 848,684,965.9 | 848,706,394.9 | +0.00% |
+| CO   | 6,081,801.6 | 6,046,637.4 | −0.58% |
+| **HC** | **345,019.0** | **351,607.1** | **+1.91%** |
+
+The corresponding peak `road_total` **percent change** for HC was **−3.16%
+(unseeded)** vs **−6.53% (seeded)**. CO moved from −6.76% to −7.00%.
+CO2/NOx/PMx/fuel moved by ~0.5–1.1 percentage points.
+
+**What HC is.** HC is the mass of **hydrocarbons** (unburnt fuel and partially
+combusted fuel components) in the exhaust. SUMO reports it via the **HBEFA4**
+emission model, per vehicle and per simulation step, in the `HC` / `HC_abs`
+attribute, in **milligrams per second** (the `_abs` totals here are the sum of
+those per-second values over the trip). It is distinct from CO2 (fully combusted
+carbon), NOx (nitrogen oxides) and PMx (particulates). Different fuels/engines
+emit HC in very different amounts, and HC output is concentrated in specific
+operating states (e.g. cold start and transient acceleration).
+
+**Statement of fact (no mechanism claimed).** Across the two data sets, HC is
+the metric whose *ratio* between the 30 and 20mph scenarios is least stable,
+while its absolute value is stable to ~2% between runs. This is recorded here as
+an observed fact. A mechanistic explanation is deferred pending multiple seeded
+replicates of each scenario.
+
 **Wiki link:** addresses
 [2.1 Vehicle Emissions at Slower Speeds](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#vehicle_emissions_at_slower_speeds).
 The wiki claims 20mph "is unlikely to result in an increase in vehicle
 pollution and may even lead to a reduction" — the calibrated model **supports**
-this (peak −3% to −7%). The wiki's London/TfL evidence cites an 8.3% PM10 drop
-for petrol cars; our PMx change is smaller (−3.3% peak, +0.6% off-peak) because
-the fleet is modelled generically rather than split petrol/diesel, and because
-we track exhaust PMx from the HBEFA model (tyre/brake wear is not separately
-resolved). The wiki's Future Transport figures (CO2 −26%, NOx −28%) are much
-larger than ours; the simulation reflects Wool's specific demand and geometry.
+this (peak −1.4% to −2.6% on the bulk pollutants; −7.0% CO, −6.5% HC). The
+wiki's London/TfL evidence cites an 8.3% PM10 drop for petrol cars; our PMx
+change is smaller (−2.2% peak, +0.8% off-peak) because the fleet is modelled
+generically rather than split petrol/diesel, and because we track exhaust PMx
+from the HBEFA model (tyre/brake wear is not separately resolved). The wiki's
+Future Transport figures (CO2 −26%, NOx −28%) are much larger than ours; the
+simulation reflects Wool's specific demand and geometry.
 
 ### 2.2 Traffic Flow and Journey Times
 
@@ -194,15 +248,15 @@ Measured journey-time and flow metrics (survey-calibrated demand, from
 
 | Scenario | Avg duration | Avg time loss | Avg waiting | Completed trips |
 |---|---|---|---|---|
-| Peak 30mph | 875.7 s | 467.0 s | 127.4 s | 987 |
-| Peak 20mph | 819.4 s | 412.0 s | 74.9 s | 992 |
-| Off-peak 30mph | 682.7 s | 282.4 s | 42.7 s | 461 |
-| Off-peak 20mph | 690.3 s | 283.1 s | 44.6 s | 460 |
+| Peak 30mph | 864.7 s | 456.8 s | 125.1 s | 978 |
+| Peak 20mph | 837.8 s | 428.1 s | 96.0 s | 983 |
+| Off-peak 30mph | 683.3 s | 282.4 s | 43.2 s | 461 |
+| Off-peak 20mph | 688.6 s | 279.2 s | 43.4 s | 460 |
 
-- **Peak:** journey time falls **−56 s (−0.94 min)** and time loss **−12%**,
-  waiting **−41%** under 20mph — i.e. smoother flow, matching the wiki's
+- **Peak:** journey time falls **−26.9 s (−0.45 min)**, time loss **−6.3%**
+  and waiting **−23.3%** under 20mph — i.e. smoother flow, matching the wiki's
   "smoother traffic flow / fewer acceleration-deceleration events" claim.
-- **Off-peak:** journey time rises only **+8 s (+0.13 min)** — comfortably
+- **Off-peak:** journey time rises only **+5.3 s (+0.09 min)** — comfortably
   within the wiki's "average journey time might only increase by around one
   minute" (Wales / Richmond evidence).
 - Both support the wiki's §2.2 conclusion of *negligible* journey-time impact.
@@ -289,12 +343,12 @@ python3 sumo/analyze_noise.py --now sumo/wool.dft_now.emissions.xml \
 
 | Scenario | fleet mean dB(A) | per-vehicle mean dB(A) | Δ |
 |---|---|---|---|
-| Peak 30mph | 61.18 | 61.52 | — |
-| Peak 20mph | 61.11 | 61.49 | **−0.07 / −0.03** |
-| Off-peak 30mph | 62.64 | 62.88 | — |
-| Off-peak 20mph | 62.58 | 62.75 | **−0.06 / −0.12** |
+| Peak 30mph | 61.17 | 61.55 | — |
+| Peak 20mph | 61.05 | 61.38 | **−0.12 / −0.17** |
+| Off-peak 30mph | 62.63 | 62.86 | — |
+| Off-peak 20mph | 62.59 | 62.77 | **−0.03 / −0.09** |
 
-**Finding:** the model shows a **small reduction (<0.15 dB(A))**, far below the
+**Finding:** the model shows a **small reduction (<0.2 dB(A))**, far below the
 wiki's cited 3 dB(A) (UK research) — see
 [Key Table 3](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#key_tables).
 This is expected: SUMO's noise model is dominated by vehicle class and
