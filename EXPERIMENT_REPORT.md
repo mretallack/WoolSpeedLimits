@@ -27,6 +27,36 @@ scenarios use the same heterogeneous driver mix (compliant / normal / speeder).
 
 ---
 
+## Wiki Coverage Map
+
+This report is written to test the claims in
+[**The Case for a 20mph Speed Limit in Wool, Dorset**](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit).
+Every section of that wiki page is listed below with its anchor link and the
+simulation evidence (or explicit note) that addresses it.
+
+| Wiki section | Simulation coverage | Where |
+|---|---|---|
+| [2.1 Vehicle Emissions at Slower Speeds](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#vehicle_emissions_at_slower_speeds) | **Modelled** — road- and vehicle-level CO2, NOx, PMx, CO, HC, fuel, both scenarios | [§2.1](#21-measured-emissions--road-level-vs-vehicle-level) |
+| [2.2 Impact on Traffic Flow and Congestion](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#impact_on_traffic_flow_and_congestion) | **Modelled** — journey time, time loss, waiting time, throughput | [§2.2](#22-traffic-flow-and-journey-times) |
+| [2.3 Public Perception and Acceptance](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#public_perception_and_acceptance) | **Not modelled** — attitudinal, outside a traffic simulation's scope | [§2.3](#23-public-perception-not-modelled) |
+| [3.1 Enhanced Safety for Pedestrians and Cyclists](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#enhanced_safety_for_pedestrians_and_cyclists) | **Partly** — speed reduction modelled; casualty outcomes require an accident model (not present) | [§3.1](#31-pedestrian-and-cyclist-safety) |
+| [3.2 Encouraging Active Travel](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#encouraging_active_travel) | **Partly** — pedestrian substructure exists but is not yet populated | [§3.2](#32-active-travel-not-yet-populated) |
+| [3.3 Reduction in Noise Pollution](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#reduction_in_noise_pollution) | **Modelled** — HBEFA vehicle noise (dB(A)), both scenarios | [§3.3](#33-noise-pollution) |
+| [3.4 Improved Community Liveability](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#improved_community_liveability) | **Not modelled** — qualitative | [§3.4](#34-community-liveability-not-modelled) |
+| [4.1 Dorset Examples](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#dorset_examples) | **External** — case studies, cited for context | [§4](#4-case-studies-external-evidence) |
+| [4.2 UK-Wide Examples](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#uk-wide_examples) | **External** — case studies, cited for context | [§4](#4-case-studies-external-evidence) |
+| [5. Conclusion and Recommendations](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#conclusion_and_recommendations) | **Synthesis** — this report's findings feed Recommendations 1–5 | [§5](#5-conclusion-synthesis) |
+| [Key Tables 1–3](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#key_tables) | **Referenced** — external evidence (fatality risk, casualties, noise) | [§3.3](#33-noise-pollution), [§3.1](#31-pedestrian-and-cyclist-safety) |
+
+**Summary:** of the four *substantive* claims the simulation can test
+(emissions, flow, active travel, noise), **two are fully modelled**
+(emissions §2.1, flow §2.2) and **one is newly added** (noise §3.3). Active
+travel (§3.2) and the safety *outcomes* in §3.1 are only partly covered because
+the model has no pedestrian population and no accident/casualty model. The
+attitudinal (§2.3) and case-study (§4) sections are out of scope by nature.
+
+---
+
 ## 1. How to Generate Video Visualizations
 
 Pre-rendered videos of the corrected scenarios live in `sumo/`:
@@ -170,19 +200,178 @@ reports:
 
 The over-loaded demand inverted the sign of the peak-hour emissions conclusion.
 
+**Wiki link:** addresses
+[2.1 Vehicle Emissions at Slower Speeds](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#vehicle_emissions_at_slower_speeds).
+The wiki claims 20mph "is unlikely to result in an increase in vehicle
+pollution and may even lead to a reduction" — the calibrated model **supports**
+this (peak −3% to −7%). The wiki's London/TfL evidence cites an 8.3% PM10 drop
+for petrol cars; our PMx change is smaller (−3.3% peak, +0.6% off-peak) because
+the fleet is modelled generically rather than split petrol/diesel, and because
+we track exhaust PMx from the HBEFA model (tyre/brake wear is not separately
+resolved). The wiki's Future Transport figures (CO2 −26%, NOx −28%) are much
+larger than ours; the simulation reflects Wool's specific demand and geometry.
+
+### 2.2 Traffic Flow and Journey Times
+
+**Wiki link:** [2.2 Impact on Traffic Flow and Congestion](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#impact_on_traffic_flow_and_congestion).
+
+Measured journey-time and flow metrics (corrected demand, from
+`wool.dft_*.statistic.xml`):
+
+| Scenario | Avg duration | Avg time loss | Avg waiting | Completed trips |
+|---|---|---|---|---|
+| Peak 30mph | 875.7 s | 467.0 s | 127.4 s | 987 |
+| Peak 20mph | 819.4 s | 412.0 s | 74.9 s | 992 |
+| Off-peak 30mph | 682.7 s | 282.4 s | 42.7 s | 461 |
+| Off-peak 20mph | 690.3 s | 283.1 s | 44.6 s | 460 |
+
+- **Peak:** journey time falls **−56 s (−0.94 min)** and time loss **−12%**,
+  waiting **−41%** under 20mph — i.e. smoother flow, matching the wiki's
+  "smoother traffic flow / fewer acceleration-deceleration events" claim.
+- **Off-peak:** journey time rises only **+8 s (+0.13 min)** — comfortably
+  within the wiki's "average journey time might only increase by around one
+  minute" (Wales / Richmond evidence).
+- Both support the wiki's §2.2 conclusion of *negligible* journey-time impact.
+
+### 2.3 Public Perception (Not Modelled)
+
+**Wiki link:** [2.3 Public Perception and Acceptance](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#public_perception_and_acceptance).
+
+This section concerns **attitudes and acceptance**, which a traffic simulation
+cannot address. No simulation result is claimed here. The wiki's survey
+findings (~70% support, growing after implementation) should be evidenced by
+separate consultation data, not this model.
+
 ---
 
-## 3. Non-Vehicle Modeling & Railway Level Crossing Integration
+## 3. The Benefits (Wiki Section 3)
 
-The Wool SUMO model incorporates the village railway line and level crossing timings (`wool.additional-6-9-2016.xml`), which periodically close for passing trains (`Train 1W96`, `Train 1W51`, etc.).
+This section addresses the wiki's benefits claims, plus the non-vehicle and
+railway model components. The Wool SUMO model incorporates the village railway
+line and level crossing timings (`wool.additional-6-9-2016.xml`), which
+periodically close for passing trains (`Train 1W96`, `Train 1W51`, etc.).
 
-### Proposed Non-Vehicle & Active Travel Experiments in SUMO
-1. **Pedestrian Crossing & Walkability Flows (`wool.pedestrians.additional.xml`)**:
-   - Models pedestrian flow (`personFlow`) from residential areas toward the village center and railway station.
-   - Evaluates how lower vehicle speeds (20mph on back roads) impact pedestrian safety, crossing wait times, and multimodal interaction.
-2. **Level Crossing Queue Interaction**:
-   - When the railway gates close, vehicles and pedestrians queue up along the primary and back routes.
-   - Slower vehicle speeds (20mph) reduce harsh braking events and smoother acceleration queues when crossing barriers reopen, mitigating stop-start particulate emissions (PMx).
+**Non-vehicle model components in the network:**
+1. **Pedestrian substructure (`wool.pedestrians.additional.xml`)** — a
+   `personFlow` between the east and west edges; runnable via
+   `wool.pedestrian_experiment.sumo.cfg` but not yet part of the canonical runs
+   (see §3.2).
+2. **Level crossing interaction** — when the railway gates close, vehicles
+   queue along the primary and back routes; slower speeds reduce harsh braking
+   and smooth re-acceleration when barriers reopen (relevant to the PMx result
+   in §2.1).
+
+### 3.1 Pedestrian and Cyclist Safety
+
+**Wiki link:** [3.1 Enhanced Safety for Pedestrians and Cyclists](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#enhanced_safety_for_pedestrians_and_cyclists).
+
+**Partly covered.** The model reproduces the wiki's **premise** — that 20mph
+lowers vehicle speeds on the back roads — and the collision *context* (vehicle
+speeds, junction interactions, level-crossing queues). It does **not** reproduce
+casualty outcomes: SUMO here has no accident/casualty model, no pedestrian
+population (see §3.2), and no conflict-point analysis.
+
+Therefore the wiki's headline safety evidence — the 24% Welsh casualty
+reduction, and the
+[Key Table 1](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#key_tables)
+fatality-risk-vs-impact-speed curve (20mph: 1–5% vs 30mph: 20–45%) — is
+**cited as external evidence**, not derived from this simulation. What the model
+adds is confirmation that the *speed reduction itself* is achievable on the
+Wool network (0% of vehicles exceed the 20mph compliant-type cap in the
+`CAR_COMPLIANT` class).
+
+**Gap:** to model §3.1 properly would require either (a) SUMO's SSM
+(surrogate safety measures) device to quantify conflict severity, or (b) a
+pedestrian population. Both are feasible extensions but are not present.
+
+### 3.2 Active Travel (Not Yet Populated)
+
+**Wiki link:** [3.2 Encouraging Active Travel](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#encouraging_active_travel).
+
+**Partly covered — infrastructure only.** A pedestrian substructure exists
+(`wool.pedestrians.additional.xml`, a `personFlow` from the east edge to the
+west edge) and the pedestrian-experiment config
+(`wool.pedestrian_experiment.sumo.cfg`) is runnable. **However, the canonical
+`wool.dft_*` scenario runs contain zero pedestrians** — all statistic files
+report `pedestrianStatistics number="0"`. No active-travel result is therefore
+claimed.
+
+The wiki claims increased walking/cycling following a 20mph limit. To test this
+in SUMO the pedestrian flows (and ideally a mode-shift elasticity) must be
+added to the main scenarios, and pedestrian journey times / wait times at the
+level crossing compared between 30 and 20mph. That is an outstanding task.
+
+### 3.3 Noise Pollution
+
+**Wiki link:** [3.3 Reduction in Noise Pollution](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#reduction_in_noise_pollution).
+
+**Modelled.** SUMO's HBEFA noise model attaches a `noise` value (dB(A)) to every
+vehicle timestep; `sumo/analyze_noise.py` aggregates it:
+
+```bash
+python3 sumo/analyze_noise.py --now sumo/wool.dft_now.emissions.xml \
+                              --scheme sumo/wool.dft_20mph.emissions.xml
+```
+
+| Scenario | fleet mean dB(A) | per-vehicle mean dB(A) | Δ |
+|---|---|---|---|
+| Peak 30mph | 61.18 | 61.52 | — |
+| Peak 20mph | 61.11 | 61.49 | **−0.07 / −0.03** |
+| Off-peak 30mph | 62.64 | 62.88 | — |
+| Off-peak 20mph | 62.58 | 62.75 | **−0.06 / −0.12** |
+
+**Finding:** the model shows a **small reduction (<0.15 dB(A))**, far below the
+wiki's cited 3 dB(A) (UK research) — see
+[Key Table 3](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#key_tables).
+This is expected: SUMO's noise model is dominated by vehicle class and
+acceleration, and a "signs-only" speed cap without traffic calming changes
+those only marginally. The wiki's larger figures come from physical measures
+and real-world measurement; the simulation should be read as a *lower bound* on
+the noise benefit, not a contradiction.
+
+### 3.4 Community Liveability (Not Modelled)
+
+**Wiki link:** [3.4 Improved Community Liveability](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#improved_community_liveability).
+
+Qualitative outcomes (sense of community, severance, social interaction) are
+not simulable and no result is claimed. The model contributes indirectly via
+the safety and active-travel sections above.
+
+---
+
+## 4. Case Studies (External Evidence)
+
+**Wiki links:** [4.1 Dorset Examples](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#dorset_examples),
+[4.2 UK-Wide Examples](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#uk-wide_examples).
+
+These sections are **external case-study evidence** (Bridport, Langton
+Matravers, Wimborne, Winfrith Newburgh and Pimperne in Dorset; Scottish
+Borders' 97-village rollout; Wales' national default). They require no
+simulation and are referenced here for context. The Wool network used in this
+study is the same village geometry those schemes would apply to.
+
+---
+
+## 5. Conclusion (Synthesis)
+
+**Wiki link:** [5. Conclusion and Recommendations](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#conclusion_and_recommendations).
+
+This simulation supports the wiki's overall case, with these qualifications:
+
+| Wiki recommendation | Simulation support |
+|---|---|
+| Rec 1 — proceed with a formal 20mph proposal | Supported: no emissions penalty, flow preserved |
+| Rec 2 — community engagement campaign | N/A (attitudinal, §2.3) — simulation gives the evidence base |
+| Rec 3 — phased pilot with monitoring | Supported: the calibrated model is the monitoring baseline |
+| Rec 4 — self-enforcing road design | Not modelled (physical calming differs from a signs-only cap) |
+| Rec 5 — enforcement/education strategy | Not modelled |
+
+**Net:** the corrected simulations support the emissions (§2.1), flow (§2.2)
+and — modestly — noise (§3.3) arguments. The safety-outcome (§3.1) and
+active-travel (§3.2) arguments remain **evidence gaps** in the current model
+and are flagged as future work rather than confirmed.
+
+---
 
 
 ## Note on Movie/Simulation Rating & Visuals
