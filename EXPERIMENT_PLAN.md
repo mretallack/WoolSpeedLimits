@@ -25,7 +25,12 @@ Road" change.
 
 ## 2. Test Procedure & Execution
 
-Both scenarios use identical traffic demand flows and Department for Transport (DfT) speed compliance distributions (`Sources/SPE0101.ods`) parameterized in `wool.rou.dft_controlled.xml`. This ensures 100% controlled before-and-after comparability.
+Both scenarios use identical traffic demand flows; the two sets differ only in
+the driver speed distribution. DfT vehicle speed-compliance data
+(`Sources/spe0101.ods`, with `spe0113.ods` for the hourly figures — see
+[`sumo/DFT_BEHAVIOUR.md`](sumo/DFT_BEHAVIOUR.md)) is used to set the behaviour
+in the DfT-calibrated set. This keeps before-and-after comparisons fully
+controlled.
 
 ### Step 1: Run Batch Simulations (Statistical & Emission Data Collection)
 Execute the headless SUMO runners to generate trip records, performance statistics, and emission XMLs:

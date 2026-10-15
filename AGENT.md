@@ -6,7 +6,7 @@ This repository (`TrafficSim` / `WoolSimulation`) models traffic simulation scen
 
 ## Key Components
 - **`WoolSimulation/sumo/`**: Contains SUMO network files (`wool.net.xml`, `wool.20mph.net.xml`), additional files (traffic lights, level crossings, emissions), and runner configurations.
-- **`WoolSimulation/Sources/`**: Contains official Department for Transport (DfT) vehicle speed compliance statistics (SPE01 series: SPE0101, SPE0102, SPE0103, SPE0104, SPE0105) used to parameterize realistic speed distributions by vehicle type and road type.
+- **`WoolSimulation/Sources/`**: DfT vehicle speed statistics and the consultation data. Present files: `spe0101.ods` (% exceeding by road type/vehicle type), `spe0113.ods` (by hour of day), `spe0102.ods` (free-flow speeds), `spe0116.ods` (by day), `spe0201_offences.ods` (speeding offences — *not* compliance), plus `Wool20MphRoads.json` and the consultation map PDF. Provenance, URLs and how they parameterise the behaviour are in `sumo/DFT_BEHAVIOUR.md`.
 - **`WoolSimulation/EXPERIMENT_REPORT.md`**: Detailed findings, emission tracking, and non-vehicle/pedestrian/railway interaction models.
 
 ## Working with the Simulation

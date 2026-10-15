@@ -87,13 +87,23 @@ The traffic flow rates and demand patterns used in this repository are derived d
 > emissions result; the corrected demand removes that saturation.
 
 
-## Comprehensive Simulation Plan: Sticky Routing & Hourly/Weekly Temporal Profiling
-To further enhance the realism and accuracy of the Wool speed limit study, the simulation methodology incorporates two key advancements:
+## Extended Simulation Plan (partly implemented)
 
-1. **Sticky Through-Traffic Routing (No Back-Street Detours):**
-   - Vehicles traveling West-to-East or East-through-West are assigned fixed, explicit route edges along the primary corridor (Dorchester Road / High Street).
-   - Automatic dynamic re-routing is disabled, ensuring that when railway level crossing barrier closures occur, vehicles queue realistically along the main route rather than making artificial detours through residential back roads (such as Colliers Lane or Lulworth Road).
+Two further areas of work; note what is **implemented** versus **planned**.
 
-2. **24/7 Hourly & Day-of-Week Temporal Profiling:**
-   - Utilizing Department for Transport temporal distributions (**SPE0103** for hour-of-day and **SPE0104** for day-of-week) combined with WoolRATH survey data, a full 24-hour × 7-day batch runner scales the baseline traffic flow rates (e.g. the 8:00 AM peak of 518 cars, 49 LGVs and 25 HGVs west-to-east).
-   - This captures distinct traffic behaviors across weekday commuter peaks, school runs, weekend leisure travel, and late-night quiet periods, generating complete multi-day statistical matrices for emissions, queue lengths (e.g., up to 228m near Bailey's Drove), and journey times.
+1. **Sticky Through-Traffic Routing — implemented.** Vehicles travelling
+   west→east or east→west are assigned fixed, explicit route edges along the
+   primary corridor (Dorchester Road / High Street), and dynamic re-routing is
+   disabled, so that vehicles queue realistically during level-crossing closures
+   rather than detouring through back roads (Colliers Lane / Lulworth Road).
+   (Note: the `device.rerouting.probability="0.0"` attribute was removed from the
+   route files because it crashes SUMO-GUI; results are unchanged — see
+   `EXPERIMENT_REPORT.md` §1.)
+
+2. **24/7 hourly / day-of-week temporal profiling — planned, not yet built.**
+   There is currently **no** 24-hour × 7-day batch runner, and the DfT temporal
+   tables it would need (**SPE0103** hour-of-day, **SPE0104** day-of-week) are
+   **not** committed to `Sources/` (only the speed-compliance tables listed above
+   are). The present model runs a single 1-hour peak and a scaled off-peak
+   scenario. This extension would scale the baseline flows across the week and
+   produce multi-day matrices for emissions, queues and journey times.

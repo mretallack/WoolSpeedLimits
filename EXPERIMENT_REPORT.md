@@ -119,6 +119,21 @@ SUMO records trip statistics and pollutant emissions. **Emissions are deliberate
 collected at two different levels**, because a change to the speed limit can push
 them in *opposite* directions depending on the level of aggregation (see §2.1).
 
+### Data sources
+
+- **Traffic demand** — WoolRATH manual survey (Sept 2016); see
+  [`FLOW_CALIBRATION.md`](FLOW_CALIBRATION.md).
+- **Driver speed behaviour** — DfT *Vehicle speed compliance statistics for
+  Great Britain: 2024* (published 25 June 2025).
+  Landing page: <https://www.gov.uk/government/statistics/vehicle-speed-compliance-statistics-for-great-britain-2024>.
+  Local copies committed under [`Sources/`](Sources/):
+  `spe0101.ods` (% exceeding by road type / vehicle type — the key table),
+  `spe0113.ods` (by hour of day), `spe0102.ods` (free-flow speeds),
+  `spe0116.ods` (by day). Full provenance and the derivation are in
+  [`sumo/DFT_BEHAVIOUR.md`](sumo/DFT_BEHAVIOUR.md).
+- **20mph road list** — Dorset Council consultation; see
+  [`sumo/NETWORK_BUILD.md`](sumo/NETWORK_BUILD.md) and `Sources/Wool20MphRoads.json`.
+
 ### Running Automated Batch Simulations & Stats Export
 ```bash
 cd WoolSimulation/sumo
