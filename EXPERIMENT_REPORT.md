@@ -90,6 +90,13 @@ python3 analyze_emissions.py \
 
 ### 2.1 Measured Emissions — Road-Level vs Vehicle-Level
 
+> **Note (revised):** these figures supersede an earlier set that was produced
+> from a **saturated** demand scenario (1,470 veh/hr, ~39% above the measured
+> A352 flow). That over-loading inverted the peak-hour result. See
+> `FLOW_CALIBRATION.md` for the audit and `wool.rou.dft_controlled.v2.xml` for
+> the corrected demand. All numbers below are from the corrected runs
+> (1,382 veh/hr, 0 teleports, all vehicles inserted).
+
 **Why both levels matter.** A vehicle travelling at 20mph instead of 30mph emits a
 similar mass **per second** but occupies each road segment for **~50% longer**.
 For a *vehicle*, that is a near-wash or a small saving; for a *road section*, the
@@ -100,41 +107,53 @@ reports:
 - **vehicle_total** — total mass over all trips
 - **vehicle_perkm** — mass per km driven (Δ = is the *average km* cleaner)
 
-**% change under the 20mph scheme (peak hour, controlled demand):**
+**% change under the 20mph scheme (peak hour, corrected demand):**
 
 | Metric | road_total | vehicle_total | vehicle_perkm |
 |---|---|---|---|
-| CO2  | +2.17% | +1.96% | +5.63% |
-| NOx  | +3.74% | +3.51% | +7.24% |
-| PMx  | +2.32% | +2.23% | +5.90% |
-| CO   | −4.47% | −4.39% | −0.95% |
-| HC   | +3.98% | +4.15% | +7.90% |
-| fuel | +2.18% | +1.97% | +5.64% |
+| CO2  | −3.50% | −3.35% | −2.19% |
+| NOx  | −3.25% | −3.18% | −2.01% |
+| PMx  | −3.30% | −3.23% | −2.07% |
+| CO   | −6.76% | −6.65% | −5.52% |
+| HC   | −3.16% | −2.97% | −1.80% |
+| fuel | −3.50% | −3.35% | −2.19% |
 
-**% change under the 20mph scheme (off-peak):**
+**% change under the 20mph scheme (off-peak, corrected demand):**
 
 | Metric | road_total | vehicle_total | vehicle_perkm |
 |---|---|---|---|
-| CO2  | −0.31% | −0.32% | −0.51% |
-| NOx  | +0.24% | +0.22% | +0.03% |
-| PMx  | +0.38% | +0.31% | +0.12% |
-| CO   | −2.70% | −2.78% | −2.96% |
-| HC   | −0.27% | −0.64% | −0.83% |
-| fuel | −0.31% | −0.33% | −0.51% |
+| CO2  | +0.11% | +0.09% | +0.55% |
+| NOx  | +0.37% | +0.34% | +0.80% |
+| PMx  | +0.61% | +0.61% | +1.07% |
+| CO   | −2.51% | −2.46% | −2.01% |
+| HC   | +0.79% | +0.60% | +1.06% |
+| fuel | +0.11% | +0.09% | +0.55% |
 
-**Interpretation (refines Hypothesis 1):**
+**Interpretation (revised — supports Hypothesis 1):**
 
-- **Off-peak**, the two levels broadly agree and the change is negligible
-  (≤0.5%). Slower cruising marginally *lowers* per-km CO2/fuel/PMx — the
-  "smoother pacing" effect is real but tiny at free-flow.
-- **Peak**, emissions rise under 20mph, and rise **more per km** (+5–8%) than in
-  total (+2–4%). The 20mph cap extends time spent queued/accelerating at
-  capacity, so per-km pollution increases. Some trips also fail to complete
-  within the hour, so the *total* under-states the per-km penalty.
-- **The naive claim "slower ⇒ less pollution" holds only per-km, and only
-  off-peak.** Under congested conditions it is the opposite at every level.
-- This is a **negative result for the scheme's emissions rationale** and should
-  be reported as such, not as a confirmation.
+- **Peak**: with corrected (survey-matched) demand, the 20mph scheme **reduces**
+  emissions at every level — approximately **−3% to −7%**. Lowering the limit
+  smooths the peak and cuts stop-start and queuing.
+- **Off-peak**: the change is negligible (≤1%), i.e. **no penalty** from the
+  scheme at free-flow. CO falls slightly (−2.5%); other pollutants are within
+  noise.
+- Net: this now **supports Hypothesis 1** — 20mph does not increase pollution and
+  reduces it under peak conditions.
+- **Critical caveat:** this conclusion is *demand-dependent*. The earlier
+  saturated scenario (1,470 veh/hr) reversed it (+3–6%). Any future re-run must
+  use the calibrated demand in `FLOW_CALIBRATION.md` or the sign of the result
+  cannot be trusted.
+
+**Effect of the flow correction on the peak result:**
+
+| Metric (road_total) | saturated (old) | corrected (new) |
+|---|---|---|
+| CO2  | +3.63% | −3.50% |
+| NOx  | +5.86% | −3.25% |
+| PMx  | +2.94% | −3.30% |
+| fuel | +3.64% | −3.50% |
+
+The over-loaded demand inverted the sign of the peak-hour emissions conclusion.
 
 ---
 

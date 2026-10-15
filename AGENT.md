@@ -10,8 +10,12 @@ This repository (`TrafficSim` / `WoolSimulation`) models traffic simulation scen
 ## Working with the Simulation
 When running or modifying simulations:
 1. Always use controlled random seeds or identical route files between the 30mph baseline and 20mph proposed scheme to ensure valid before-and-after comparisons. Primary comparison pairs:
-   - **Peak (controlled):** `wool.dft_now.sumo.cfg` vs `wool.dft_20mph.sumo.cfg` (routes `wool.rou.dft_controlled.xml`).
-   - **Off-peak:** `wool.dft_offpeak_now.sumo.cfg` vs `wool.dft_offpeak_20mph.sumo.cfg` (routes `wool.rou.dft_offpeak.xml`).
+   - **Peak (controlled):** `wool.dft_now.sumo.cfg` vs `wool.dft_20mph.sumo.cfg` (routes `wool.rou.dft_controlled.v2.xml`).
+   - **Off-peak:** `wool.dft_offpeak_now.sumo.cfg` vs `wool.dft_offpeak_20mph.sumo.cfg` (routes `wool.rou.dft_offpeak.v2.xml`).
+   - The `.v2` route files are survey-calibrated. **Do not revert to the old**
+     `wool.rou.dft_controlled.xml` / `wool.rou.dft_offpeak.xml`: those over-loaded
+     the peak network (~39% above measured flow) and inverted the emissions
+     result. See `FLOW_CALIBRATION.md`.
 2. Run SUMO using `sumo -c <config>.sumo.cfg`.
 3. Respect submodules (`WoolSimulation`) when committing and pushing changes.
 
@@ -23,4 +27,12 @@ vehicle level, so **never report a single figure**. Each config emits both:
 
 Analyse with `sumo/analyze_emissions.py`, which prints **road_total**, **vehicle_total**
 and **vehicle_perkm** (per-km) side by side. See `EXPERIMENT_REPORT.md` §2.1 for the
-headline numbers and the caveat that "slower ⇒ cleaner" only holds per-km off-peak.
+headline numbers.
+
+## Saturation guard (run this after every demand change)
+Before trusting any emissions result, confirm the run did not saturate:
+- `<vehicles ... waiting="0">` and `loaded == inserted` in `*.statistic.xml`
+- `<teleports total="0">`
+If either fails, the demand is over capacity and the emissions conclusion is
+unreliable (an over-loaded peak run has been shown to invert the result).
+See `FLOW_CALIBRATION.md` for the survey calibration.
