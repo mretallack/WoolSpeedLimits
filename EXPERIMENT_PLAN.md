@@ -7,12 +7,19 @@ This document defines the complete experimental plan, testing procedures, data c
 ## 1. Experimental Hypotheses & Conditions
 
 - **Hypothesis 1 (Emissions & Particulates):** Lowering speed limits on residential back roads and village routes from 30mph to 20mph does not increase overall exhaust pollution and can reduce stop-start particulate emissions (PMx) due to smoother vehicle pacing and reduced harsh acceleration/braking.
-- **Hypothesis 2 (Traffic Flow & Journey Times):** Restricting back roads to 20mph while maintaining major arterial thoroughfares (**Dorchester Road**) results in a negligible impact on overall journey duration (estimated under 1 minute difference).
+- **Hypothesis 2 (Traffic Flow & Journey Times):** Restricting the **listed** roads to 20mph while leaving non-listed arterial thoroughfares (**Dorchester Road** is not in the list) at their existing limits results in a negligible impact on overall journey duration (estimated under 1 minute difference).
 - **Hypothesis 3 (Non-Vehicle & Active Travel):** Slower vehicle speeds improve pedestrian safety, reduce crossing wait times, and harmonize traffic flow around railway level crossing barrier closures (`joinedS_0`).
 
+### Scheme definition
+The set of roads that become 20mph is defined by the Dorset Council consultation
+(`Sources/Wool20MphRoads.json`) — a **positive list** of 41 segments across 35
+streets. A road reverts to 20mph **only if it is in that list**; all other roads
+keep their current limit. This is not a blanket "everything except Dorchester
+Road" change.
+
 ### Compared Scenarios:
-1. **"Now" (Baseline 30mph):** Network `wool.net.xml` with residential/back roads at 30mph (~13.4 m/s).
-2. **"With 20mph" (Proposed Scheme):** Network `wool.20mph.net.xml` where back roads, **Colliers Lane**, and **Lulworth Road** are capped at 20mph (~8.94 m/s), while **Dorchester Road** is excluded and retained at 30mph+.
+1. **"Now" (Baseline):** Network `wool.net.xml` at existing limits (residential/back roads at 30mph ~13.4 m/s).
+2. **"With 20mph" (Proposed Scheme):** Network `wool.20mph.net.xml` where the **listed** roads (including **Colliers Lane** and **Lulworth Road**) are capped at 20mph (~8.94 m/s). Non-listed roads, including **Dorchester Road**, retain their existing limits.
 
 ---
 

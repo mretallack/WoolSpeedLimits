@@ -16,9 +16,14 @@ The comparison pairs (survey-calibrated demand, see `FLOW_CALIBRATION.md`) are:
    - 30mph baseline: `wool.dft_offpeak_now.sumo.cfg`
    - 20mph scheme:  `wool.dft_offpeak_20mph.sumo.cfg`
 
-The 20mph network reduces back roads, **Colliers Lane** and **Lulworth Road** to
-20mph / 8.94 m/s; **Dorchester Road** is excluded and retained at 30mph. Both
-scenarios use the same heterogeneous driver mix (compliant / normal / speeder).
+The 20mph scheme is defined by an **explicit list of roads**, not a blanket
+change. The authoritative definition is the Dorset Council consultation geoJSON
+`Sources/Wool20MphRoads.json`: **41 segments across 35 streets**, including
+**Colliers Lane** and **Lulworth Road**. A road becomes 20mph (8.94 m/s)
+**only if it is in that list**; every other road keeps its existing limit.
+**Dorchester Road** is not in the list and is retained at its current limit.
+Both scenarios use the same heterogeneous driver mix (compliant / normal /
+speeder).
 
 **Seeding and repeatability.** All four configs now carry a fixed seed
 (`<seed value="42"/>`). Repeated runs of the same config are identical to the
@@ -322,7 +327,7 @@ specifically:
 - [Children](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#children)
 
 **Partly covered.** The model reproduces the wiki's **premise** — that 20mph
-lowers vehicle speeds on the back roads — and the collision *context* (vehicle
+lowers vehicle speeds on the listed roads — and the collision *context* (vehicle
 speeds, junction interactions, level-crossing queues). It does **not** reproduce
 casualty outcomes: SUMO here has no accident/casualty model, no pedestrian
 population (see §3.2), and no conflict-point analysis.
