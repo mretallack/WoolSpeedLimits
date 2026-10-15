@@ -17,8 +17,10 @@ When running or modifying simulations:
      off-peak `wool.dft_offpeak_{now,20mph}.sumo.cfg` (routes `wool.rou.dft_offpeak.v2.xml`).
      Results doc: `EXPERIMENT_REPORT.md`.
    - **DfT-calibrated set (`cal`)**: driver compliance from DfT SPE0101 (2024),
-     different mix per limit. `wool.cal_now.sumo.cfg` vs `wool.cal_20mph.sumo.cfg`
-     (routes `wool.rou.dft_cal_30.xml` / `wool.rou.dft_cal_20.xml`).
+     different mix per limit. Peak `wool.cal_now.sumo.cfg` vs
+     `wool.cal_20mph.sumo.cfg` (routes `wool.rou.dft_cal_{30,20}.xml`); off-peak
+     `wool.cal_offpeak_{now,20mph}.sumo.cfg` (routes
+     `wool.rou.dft_cal_offpeak_{30,20}.xml`).
      Results: `EXPERIMENT_REPORT.md` §2.4; data: `sumo/DFT_BEHAVIOUR.md`.
    - Always use controlled random seeds / identical demand between baseline and
      scheme. The `.v2` and `.dft_cal_*` route files are survey-calibrated; **do

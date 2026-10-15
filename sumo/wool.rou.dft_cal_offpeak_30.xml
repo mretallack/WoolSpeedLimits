@@ -1,0 +1,34 @@
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
+
+    <!-- ================================================================
+         CALIBRATED-BEHAVIOUR OFF-PEAK DEMAND (30mph baseline) — "dft_cal" set
+         Same driver distribution as the peak cal-30 scenario:
+           30 mph roads: 43% exceed; normc(0.968,0.180,0.2,2.0)
+         Volumes are the off-peak (0.40 x peak) survey-calibrated flows.
+         ================================================================ -->
+
+    <vType id="MCY" vClass="motorcycle" guiShape="motorcycle" maxSpeed="35.0" speedFactor="1.1" speedDev="0.15" />
+    <vType id="BUS" vClass="bus" guiShape="bus" maxSpeed="22.0" speedFactor="0.95" />
+    <vType id="LGV" vClass="truck" guiShape="truck" maxSpeed="25.0" speedFactor="1.0" />
+    <vType id="HGV" vClass="trailer" guiShape="truck/semitrailer" maxSpeed="22.0" speedFactor="0.9" />
+    <vType id="CAR" vClass="passenger" guiShape="passenger" color="0,0,255" maxSpeed="45.0" speedFactor="normc(0.968,0.180,0.2,2.0)" />
+
+    <flow id="we_cars" from="348027517" to="--13195" vehsPerHour="207" type="CAR" begin="0" end="3600" departLane="best" departSpeed="max" />
+    <flow id="west_to_east_1" from="348027517" to="--13195" vehsPerHour="5"  type="MCY" begin="0" end="3600" />
+    <flow id="west_to_east_3" from="348027517" to="--13195" vehsPerHour="1"  type="BUS" begin="0" end="3600" />
+    <flow id="west_to_east_4" from="348027517" to="--13195" vehsPerHour="20" type="LGV" begin="0" end="3600" />
+    <flow id="west_to_east_5" from="348027517" to="--13195" vehsPerHour="10" type="HGV" begin="0" end="3600" />
+    <flow id="west_to_east_10" from="4691379#0" to="--13195" vehsPerHour="56" type="CAR" begin="0" end="3600" />
+
+    <flow id="south_to_north_0" from="-143541622" to="-144378564" vehsPerHour="1"  type="MCY" begin="0" end="3600" />
+    <flow id="south_to_north_1" from="-143541622" to="-144378564" vehsPerHour="20" type="CAR" begin="0" end="3600" />
+    <flow id="south_to_north_2" from="-143541622" to="-144378564" vehsPerHour="1"  type="BUS" begin="0" end="3600" />
+    <flow id="south_to_north_3" from="-143541622" to="-144378564" vehsPerHour="2"  type="LGV" begin="0" end="3600" />
+    <flow id="south_to_north_4" from="-143541622" to="-144378564" vehsPerHour="1"  type="HGV" begin="0" end="3600" />
+
+    <flow id="east_to_west_0" from="-13195" to="-348027517" vehsPerHour="2"   type="MCY" begin="0" end="3600" />
+    <flow id="east_to_west_1" from="-13195" to="-348027517" vehsPerHour="200" type="CAR" begin="0" end="3600" />
+    <flow id="east_to_west_2" from="-13195" to="-348027517" vehsPerHour="2"   type="BUS" begin="0" end="3600" />
+    <flow id="east_to_west_3" from="-13195" to="-348027517" vehsPerHour="20"  type="LGV" begin="0" end="3600" />
+    <flow id="east_to_west_4" from="-13195" to="-348027517" vehsPerHour="7"   type="HGV" begin="0" end="3600" />
+</routes>

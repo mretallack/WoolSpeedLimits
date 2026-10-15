@@ -91,9 +91,11 @@ DfT-calibrated `cal` §2.4), which give different answers.
 
 ## 1. How to Generate Video Visualizations
 
-Pre-rendered videos of the scenarios live in `sumo/`:
-`wool_peak_30mph.webm`, `wool_peak_20mph.webm`, `wool_offpeak_30mph.webm`,
-`wool_offpeak_20mph.webm`.
+Pre-rendered videos of the scenarios live in `sumo/` — the peak and off-peak
+`dft` pair (`wool_peak_30mph.webm`, `wool_peak_20mph.webm`,
+`wool_offpeak_30mph.webm`, `wool_offpeak_20mph.webm`) and the `cal` pair
+(`wool_cal_peak_30mph.webm`, `wool_cal_peak_20mph.webm`,
+`wool_cal_offpeak_30mph.webm`, `wool_cal_offpeak_20mph.webm`).
 
 To re-record in SUMO-GUI, use `sumo/render_sync.sh <config> <output.webm> [secs] [delay]`
 (headless via Xvfb + ffmpeg), or interactively:
@@ -146,6 +148,8 @@ sumo -c wool.dft_offpeak_20mph.sumo.cfg  # off-peak 20mph
 # Sensitivity set — DfT-calibrated driver behaviour (`cal`, see §2.4)
 sumo -c wool.cal_now.sumo.cfg            # peak 30mph
 sumo -c wool.cal_20mph.sumo.cfg          # peak 20mph
+sumo -c wool.cal_offpeak_now.sumo.cfg    # off-peak 30mph
+sumo -c wool.cal_offpeak_20mph.sumo.cfg  # off-peak 20mph
 ```
 
 Each config now produces **both**:
@@ -300,8 +304,9 @@ specifically:
 - [Speed limits vs physical traffic calming](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#speed_limits_vs_physical_traffic_calming)
 
 The wiki claims 20mph "is unlikely to result in an increase in vehicle
-pollution and may even lead to a reduction" — the calibrated model **supports**
-this (peak −1.4% to −2.6% on the bulk pollutants; −7.0% CO, −6.5% HC). The
+pollution and may even lead to a reduction". The **`dft` set supports** this
+(§2.1 tables above). The **`cal` set gives a mixed answer** (§2.4): per km driven
+CO2/fuel/HC fall but PMx and CO rise. The
 wiki's London/TfL evidence cites an 8.3% PM10 drop for petrol cars, with
 emissions varying by engine type (petrol vs diesel); our PMx change is smaller
 (−2.2% peak, +0.8% off-peak) because the fleet is modelled generically rather
@@ -433,6 +438,31 @@ vehicle-km are driven** — an absolute emission total = distance × rate:
 
 **Noise (peak, `cal` set).** Fleet mean 61.56 → 62.49 dB(A): **+0.93 dB(A)**
 (no benefit, as in the `dft` set).
+
+#### Off-peak (`cal` set)
+
+The off-peak `cal` scenarios are also provided (configs
+`wool.cal_offpeak_{now,20mph}.sumo.cfg`, routes
+`wool.rou.dft_cal_offpeak_{30,20}.xml`). Here the picture is clearer, because
+the 20mph scenario drives **about the same distance** (vehicle-km −0.46%), so
+the totals and per-km figures largely agree:
+
+| Metric | total | per km |
+|---|---|---|
+| CO2  | **−4.79%** | −4.58% |
+| NOx  | +0.42% | +0.64% |
+| PMx  | **+3.59%** | +3.96% |
+| CO   | **+25.95%** | +26.12% |
+| HC   | **−8.33%** | −7.62% |
+| fuel | **−4.78%** | −4.57% |
+
+- **CO2, fuel and HC fall**; **PMx and CO rise**; NOx roughly flat.
+- Journey time **−90 s** (557 → 467 s), trips 480 → 479 (unchanged).
+- Noise fleet mean 63.87 → 65.34 dB(A): **+1.46 dB(A)** (no benefit).
+
+The direction matches the peak `cal` result (CO2/fuel/HC down, PMx/CO up), so
+the mixed finding is consistent across peak and off-peak once behaviour is
+DfT-calibrated.
 
 #### Both sets side by side (peak, 20mph vs 30mph)
 

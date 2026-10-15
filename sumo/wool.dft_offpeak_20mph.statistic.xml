@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 2026-10-15T14:42:16.325779+00:00 by Eclipse SUMO GUI v1_28_0+0014-aa0f9a4194e
+<!-- generated on 2026-10-15T19:05:25.303676+00:00 by Eclipse SUMO sumo v1_28_0+0014-aa0f9a4194e
 <sumoConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
 
     <input>
@@ -34,17 +34,13 @@
 
     <gui_only>
         <gui-settings-file value="wool.settings.xml"/>
-        <quit-on-end value="true"/>
-        <start value="true"/>
-        <delay value="60"/>
-        <window-size value="1520,900"/>
     </gui_only>
 
 </sumoConfiguration>
 -->
 
 <statistics xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/statistic_file.xsd">
-    <performance clockBegin="1792071736.34" clockEnd="1792071953.59" clockDuration="217.25" traciDuration="0.60" realTimeFactor="16.57" vehicleUpdatesPerSecond="1604.37" personUpdatesPerSecond="0.00" begin="0.00" end="3600.00" duration="3600.00"/>
+    <performance clockBegin="1792087525.32" clockEnd="1792087541.65" clockDuration="16.33" traciDuration="2.54" realTimeFactor="220.44" vehicleUpdatesPerSecond="21342.66" personUpdatesPerSecond="0.00" begin="0.00" end="3600.00" duration="3600.00"/>
     <vehicles loaded="555" inserted="555" running="94" waiting="0"/>
     <teleports total="0" jam="0" yield="0" wrongLane="0"/>
     <safety collisions="0" emergencyStops="0" emergencyBraking="0"/>

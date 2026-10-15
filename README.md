@@ -16,7 +16,7 @@ the two result documents below.
 | # | Test set | Behaviour assumption | Configs | Results doc |
 |---|---|---|---|---|
 | 1 | **Main scenarios** | fixed car mix (10% compliant / 70% normal / 20% speeder), same for both limits | `sumo/wool.dft_{now,20mph}.sumo.cfg` (peak), `wool.dft_offpeak_{now,20mph}.sumo.cfg` | [`EXPERIMENT_REPORT.md`](EXPERIMENT_REPORT.md) |
-| 2 | **DfT-calibrated behaviour (sensitivity)** | driver compliance from DfT SPE0101 (2024): 43% exceed on 30mph, 76% on 20mph | `sumo/wool.cal_{now,20mph}.sumo.cfg` | [`EXPERIMENT_REPORT.md`](EXPERIMENT_REPORT.md) §2.4 |
+| 2 | **DfT-calibrated behaviour (sensitivity)** | driver compliance from DfT SPE0101 (2024): 43% exceed on 30mph, 76% on 20mph | `sumo/wool.cal_{now,20mph}.sumo.cfg` (peak), `wool.cal_offpeak_{now,20mph}.sumo.cfg` (off-peak) | [`EXPERIMENT_REPORT.md`](EXPERIMENT_REPORT.md) §2.4 |
 
 Both sets use the same survey-calibrated demand and the same two networks
 (`wool.net.xml` vs `wool.20mph.net.xml`), so they isolate the behaviour
