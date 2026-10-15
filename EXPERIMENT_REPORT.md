@@ -6,34 +6,49 @@ This document outlines the experimental setup, simulation configurations, statis
 
 ## Summary of Scenarios
 
-1. **"Now" (30mph Baseline)**
-   - Config file: `wool.stats_now.sumo.cfg`
-   - Network: `wool.net.xml` (standard speed limits, with residential/back roads at 30mph).
-   - Traffic mix: Heterogeneous driver behavior (`wool.rou.speed_experiment.xml` containing compliant drivers, normal drivers, and speeders).
+The canonical comparison pairs (survey-calibrated demand, see
+`FLOW_CALIBRATION.md`) are:
 
-2. **"With 20mph" (Proposed Scheme)**
-   - Config file: `wool.stats_20mph.sumo.cfg`
-   - Network: `wool.20mph.net.xml` (back roads, **Colliers Lane**, and **Lulworth Road** reduced to 20mph / 8.94 m/s; **Dorchester Road** excluded and kept at standard 30mph).
-   - Traffic mix: Same heterogeneous driver behavior.
+1. **Peak (08:00, controlled)** — routes `wool.rou.dft_controlled.v2.xml`
+   - 30mph baseline: `wool.dft_now.sumo.cfg` (network `wool.net.xml`)
+   - 20mph scheme:  `wool.dft_20mph.sumo.cfg` (network `wool.20mph.net.xml`)
+
+2. **Off-peak** — routes `wool.rou.dft_offpeak.v2.xml`
+   - 30mph baseline: `wool.dft_offpeak_now.sumo.cfg`
+   - 20mph scheme:  `wool.dft_offpeak_20mph.sumo.cfg`
+
+The 20mph network reduces back roads, **Colliers Lane** and **Lulworth Road** to
+20mph / 8.94 m/s; **Dorchester Road** is excluded and retained at 30mph. Both
+scenarios use the same heterogeneous driver mix (compliant / normal / speeder).
+
+> The earlier `wool.stats_now` / `wool.stats_20mph` configs and the
+> `wool.rou.speed_experiment.xml` route file are **superseded** by the pairs
+> above and are retained only for historical reference.
 
 ---
 
 ## 1. How to Generate Video Visualizations
 
-To record or view video simulations of the "Now" vs "With 20mph" scenarios in SUMO-GUI:
+Pre-rendered videos of the corrected scenarios live in `sumo/`:
+`wool_peak_30mph.webm`, `wool_peak_20mph.webm`, `wool_offpeak_30mph.webm`,
+`wool_offpeak_20mph.webm`.
 
-### Running "Now" in GUI
-```bash
-cd WoolSimulation/sumo
-sumo-gui -c wool.stats_now.sumo.cfg
-```
-*(In SUMO-GUI, use the recording toolbar or camera icon to export frames/video during simulation run).*
+To re-record in SUMO-GUI, use `sumo/render_sync.sh <config> <output.webm> [secs] [delay]`
+(headless via Xvfb + ffmpeg), or interactively:
 
-### Running "With 20mph" in GUI
+### Running the scenarios in GUI
 ```bash
-cd WoolSimulation/sumo
-sumo-gui -c wool.stats_20mph.sumo.cfg
+cd sumo
+sumo-gui -c wool.dft_now.sumo.cfg            # peak 30mph
+sumo-gui -c wool.dft_20mph.sumo.cfg          # peak 20mph
+sumo-gui -c wool.dft_offpeak_now.sumo.cfg    # off-peak 30mph
+sumo-gui -c wool.dft_offpeak_20mph.sumo.cfg  # off-peak 20mph
 ```
+*(In SUMO-GUI, use the recording toolbar or camera icon to export frames/video.)*
+
+> **Note:** SUMO-GUI crashes on this host if a vType sets
+> `device.rerouting.probability="0.0"`. That attribute has been removed from the
+> route files (results are identical without it). See `FLOW_CALIBRATION.md`.
 
 ---
 

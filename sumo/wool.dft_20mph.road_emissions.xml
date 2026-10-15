@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 2026-10-15T10:59:47.118930+00:00 by Eclipse SUMO sumo v1_28_0+0014-aa0f9a4194e
+<!-- generated on 2026-10-15T11:25:07.280071+00:00 by Eclipse SUMO GUI v1_28_0+0014-aa0f9a4194e
 <sumoConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
 
     <input>
@@ -30,6 +30,10 @@
 
     <gui_only>
         <gui-settings-file value="wool.settings.xml"/>
+        <quit-on-end value="true"/>
+        <start value="true"/>
+        <delay value="60"/>
+        <window-size value="1520,900"/>
     </gui_only>
 
 </sumoConfiguration>

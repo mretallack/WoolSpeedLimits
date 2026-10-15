@@ -4,5 +4,7 @@
 # (100-350 MB) and fully regenerable from the .sumo.cfg via <emission-output>.
 *.emissions.xml
 
-# WebM renders (large binaries)
-*.webm
+# WebM renders are large binaries but ARE tracked (canonical scenario videos):
+#   wool_peak_30mph.webm, wool_peak_20mph.webm,
+#   wool_offpeak_30mph.webm, wool_offpeak_20mph.webm
+# Ad-hoc/experimental renders should be given a scratch name and left untracked.
