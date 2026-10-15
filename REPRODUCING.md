@@ -12,6 +12,8 @@ versus what is regenerated.
   Re-running therefore yields **identical** results (only the `generated on …`
   timestamp comment differs).
 - Demand is survey-calibrated; see `FLOW_CALIBRATION.md`.
+- The 20mph network matches the Dorset Council consultation; see
+  `sumo/NETWORK_BUILD.md` and `sumo/build_20mph_net.py`.
 
 ## What is committed (directly checkable)
 

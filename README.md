@@ -8,7 +8,7 @@ To model realistic driver behaviors across different vehicle classes (Cars, Vans
 By applying empirical speed distributions and compliance rates by road type and vehicle class:
 - We capture realistic free-flow speeds, speeders, and compliant drivers.
 - We ensure identical trip demands and random seed controls between the **"Now" (30mph baseline)** and **"With 20mph" (proposed scheme)** scenarios.
-- The 20mph scheme is defined by an **explicit list of roads** — not a blanket change. Roads become 20mph **only if listed** in the Dorset Council consultation; every other road keeps its existing limit. The authoritative list is `Sources/Wool20MphRoads.json` (the consultation geoJSON, 41 segments across 35 streets, including **Colliers Lane** and **Lulworth Road**). **Dorchester Road** is not listed, so it stays at its current (higher) limit.
+- The 20mph scheme is defined by an **explicit list of roads** — not a blanket change. Roads become 20mph **only if listed** in the Dorset Council consultation; every other road keeps its existing limit. The authoritative list is `Sources/Wool20MphRoads.json` (the consultation geoJSON, 41 segments across 35 streets, including **Colliers Lane** and **Lulworth Road**). **Dorchester Road** is not listed, so it stays at its current (higher) limit. `wool.20mph.net.xml` is built from this list — see `sumo/NETWORK_BUILD.md` (method, anomalies and omissions).
 
 ## Repository Structure
 - `WoolSimulation/sumo/`: SUMO network files (`wool.net.xml`, `wool.20mph.net.xml`), additional configuration files (traffic lights, level crossings, emissions), and runner configs.

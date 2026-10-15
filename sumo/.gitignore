@@ -4,6 +4,10 @@
 # (100-350 MB) and fully regenerable from the .sumo.cfg via <emission-output>.
 *.emissions.xml
 
+# Legacy shared edgeData output written by wool.additional-6-9-2016.xml; an
+# unused duplicate of the per-scenario *.road_emissions.xml files.
+wool.emission.xml
+
 # WebM renders are large binaries but ARE tracked (canonical scenario videos):
 #   wool_peak_30mph.webm, wool_peak_20mph.webm,
 #   wool_offpeak_30mph.webm, wool_offpeak_20mph.webm

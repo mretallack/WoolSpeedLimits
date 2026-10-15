@@ -22,15 +22,30 @@ change. The authoritative definition is the Dorset Council consultation geoJSON
 **Colliers Lane** and **Lulworth Road**. A road becomes 20mph (8.94 m/s)
 **only if it is in that list**; every other road keeps its existing limit.
 **Dorchester Road** is not in the list and is retained at its current limit.
-Both scenarios use the same heterogeneous driver mix (compliant / normal /
-speeder).
+
+`wool.20mph.net.xml` is built from that list by matching consultation streets to
+network edges (name + geometry overlap) and setting the matched edges that are
+**currently 30/31 mph** to 20mph — **99 edges**. Higher-speed matched edges
+(50/62 mph anomalies) and all unlisted roads are left unchanged. The full method,
+the 20 anomalous edges and the 9 consultation streets absent from the network are
+documented in [`sumo/NETWORK_BUILD.md`](sumo/NETWORK_BUILD.md). Both scenarios
+use the same heterogeneous driver mix (compliant / normal / speeder).
 
 **Seeding and repeatability.** All four configs now carry a fixed seed
 (`<seed value="42"/>`). Repeated runs of the same config are identical to the
 last digit, so the numbers below are reproducible — see `REPRODUCING.md`. The
 results in this report were produced by re-running all four scenarios with the
-fixed seed; where they differ from an earlier draft (which used unseeded runs),
-the cause and magnitude are documented in [§2.1.1](#211-reproducibility-run-to-run-variation-and-the-hc-metric).
+fixed seed and the corrected network; where they differ from an earlier draft,
+the causes are documented in [§2.1.1](#211-reproducibility-run-to-run-variation-and-the-hc-metric).
+
+**Model limitations** (detail in [`sumo/NETWORK_BUILD.md`](sumo/NETWORK_BUILD.md)):
+1. **9 consultation streets are absent from the SUMO network** (minor roads
+   dropped at OSM import): Access To Wool Station, Baker Close, Burton Wood,
+   Hillside Road, New Road, Oakdene Road, Sandhills Crescent, Water Meadow
+   Lane. Their 20mph zones are not modelled (negligible corridor effect).
+2. **20 matched edges carry implausible 50/62 mph OSM tags** (e.g. a 130 m
+   stretch of "Lulworth Road" at 62 mph). These are left at their baseline
+   speed so the "Now" baseline stays a consistent 30mph world.
 
 ---
 
@@ -158,36 +173,37 @@ is therefore misleading, so `analyze_emissions.py` reports:
 
 | Metric | road_total | vehicle_total | vehicle_perkm |
 |---|---|---|---|
-| CO2  | −2.59% | −2.37% | −1.64% |
-| NOx  | −2.30% | −2.16% | −1.42% |
-| PMx  | −2.19% | −2.10% | −1.36% |
-| CO   | −7.00% | −6.86% | −6.16% |
-| HC   | −6.53% | −6.49% | −5.79% |
-| fuel | −2.59% | −2.37% | −1.64% |
+| CO2  | −1.85% | −1.80% | −3.10% |
+| NOx  | −2.99% | −2.80% | −4.09% |
+| PMx  | −1.88% | −1.72% | −3.03% |
+| CO   | −0.70% | −0.72% | −2.03% |
+| HC   | −7.10% | −7.01% | −8.24% |
+| fuel | −1.86% | −1.80% | −3.10% |
 
 **% change under the 20mph scheme (off-peak, seed 42):**
 
 | Metric | road_total | vehicle_total | vehicle_perkm |
 |---|---|---|---|
-| CO2  | −0.38% | −0.30% | −0.16% |
-| NOx  | +0.19% | +0.28% | +0.43% |
-| PMx  | +0.76% | +0.76% | +0.90% |
-| CO   | −2.38% | −2.42% | −2.28% |
-| HC   | +0.00% | −0.11% | +0.03% |
-| fuel | −0.38% | −0.30% | −0.16% |
+| CO2  | −0.63% | −0.45% | −0.53% |
+| NOx  | −0.55% | −0.38% | −0.46% |
+| PMx  | −0.20% | −0.16% | −0.24% |
+| CO   | −0.23% | −0.28% | −0.35% |
+| HC   | +0.24% | +0.16% | +0.08% |
+| fuel | −0.63% | −0.45% | −0.53% |
 
 **Interpretation (supports Hypothesis 1):**
 
-- **Peak**: the 20mph scheme **reduces** emissions at every level. The
-  bulk pollutants (CO2, NOx, PMx, fuel) fall **−1.4% to −2.6%** and CO/HC fall
-  more. Lowering the limit smooths the peak and cuts stop-start and queuing.
-- **Off-peak**: the change is negligible (|Δ| ≤ 0.9%), i.e. **no penalty** from
-  the scheme at free-flow. CO falls slightly (−2.4%); other pollutants are
-  within run-to-run tolerance (see below).
+- **Peak**: the 20mph scheme **reduces** emissions at every level. The bulk
+  pollutants (CO2, NOx, PMx, fuel) fall **−1.7% to −3.0%** (road/vehicle totals)
+  and **−3.0% to −4.1%** per km; CO and HC fall further.
+- **Off-peak**: the change is small (|Δ| ≤ 0.6% except HC), i.e. **no
+  meaningful penalty** from the scheme at free-flow. HC is within run-to-run
+  tolerance (see §2.1.1).
 - Net: this **supports Hypothesis 1** — 20mph does not increase pollution and
   reduces it under peak conditions.
-- **Caveat:** the conclusion is *demand-dependent*. Re-runs must use the
-  calibrated demand in `FLOW_CALIBRATION.md` for the result to hold.
+- **Caveat:** the conclusion is *demand- and network-dependent*. Re-runs must
+  use the calibrated demand (`FLOW_CALIBRATION.md`) and the consultation-defined
+  network (`sumo/NETWORK_BUILD.md`).
 
 ### 2.1.1 Reproducibility, run-to-run variation and the HC metric
 
@@ -197,17 +213,19 @@ the last digit — only the `generated on …` timestamp comment in the XML head
 differs. All figures in §2.1 and §3.3 come from these seeded runs, and every raw
 file can be regenerated per `REPRODUCING.md`.
 
-**Why numbers changed from an earlier draft of this report.** The report
-previously quoted figures produced from **unseeded** runs (SUMO's default
-time-based seed). Those runs were not reproducible. Re-running with seed 42
-changed the reported percentages while leaving every *direction* of every
-finding unchanged. The seeded values above supersede them.
+**Two changes since an earlier draft of this report.** (1) The comparison
+configs gained a fixed seed; (2) `wool.20mph.net.xml` was corrected to match the
+consultation (previously it wrongly reduced the arterial to 20mph — see
+`sumo/NETWORK_BUILD.md`). Both changes altered the reported percentages while
+leaving the *direction* of every finding unchanged. The figures above are the
+current, reproducible values.
 
-**Run-to-run variation by pollutant (fact, from the two data sets).**
-The change in the *absolute* emitted mass between the unseeded and the seeded
-run is small for most pollutants but distinctly larger for HC and CO:
+**Run-to-run variation by pollutant (fact, prior vs current 30mph baseline).**
+The change in the *absolute* emitted mass of the 30mph baseline between the
+earlier (unseeded/unfixed) run and the current seeded run is small for most
+pollutants but distinctly larger for HC and CO:
 
-| Peak 30mph, absolute road_total | unseeded run | seeded run | difference |
+| Peak 30mph, absolute road_total | earlier run | current run | difference |
 |---|---|---|---|
 | CO2  | 2,625,789,854.7 | 2,625,806,612.7 | +0.00% |
 | NOx  | 910,120.3 | 913,848.2 | +0.41% |
@@ -216,9 +234,9 @@ run is small for most pollutants but distinctly larger for HC and CO:
 | CO   | 6,081,801.6 | 6,046,637.4 | −0.58% |
 | **HC** | **345,019.0** | **351,607.1** | **+1.91%** |
 
-The corresponding peak `road_total` **percent change** for HC was **−3.16%
-(unseeded)** vs **−6.53% (seeded)**. CO moved from −6.76% to −7.00%.
-CO2/NOx/PMx/fuel moved by ~0.5–1.1 percentage points.
+The peak `road_total` **percent change** for HC has been reported between
+**−3.2%** and **−7.1%** across successive runs/revisions. CO has been between
+−0.7% and −7.0%. CO2/NOx/PMx/fuel have stayed within ~1 percentage point.
 
 **What HC is.** HC is the mass of **hydrocarbons** (unburnt fuel and partially
 combusted fuel components) in the exhaust. SUMO reports it via the **HBEFA4**
@@ -272,16 +290,17 @@ Measured journey-time and flow metrics (survey-calibrated demand, from
 | Scenario | Avg duration | Avg time loss | Avg waiting | Completed trips |
 |---|---|---|---|---|
 | Peak 30mph | 864.7 s | 456.8 s | 125.1 s | 978 |
-| Peak 20mph | 837.8 s | 428.1 s | 96.0 s | 983 |
+| Peak 20mph | 864.9 s | 460.5 s | 119.9 s | 1004 |
 | Off-peak 30mph | 683.3 s | 282.4 s | 43.2 s | 461 |
-| Off-peak 20mph | 688.6 s | 279.2 s | 43.4 s | 460 |
+| Off-peak 20mph | 682.5 s | 278.6 s | 42.0 s | 461 |
 
-- **Peak:** journey time falls **−26.9 s (−0.45 min)**, time loss **−6.3%**
-  and waiting **−23.3%** under 20mph — i.e. smoother flow, matching the wiki's
-  "smoother traffic flow / fewer acceleration-deceleration events" claim.
-- **Off-peak:** journey time rises only **+5.3 s (+0.09 min)** — comfortably
-  within the wiki's "average journey time might only increase by around one
-  minute" (Wales / Richmond evidence).
+- **Peak:** journey time is essentially **unchanged (+0.2 s)**; time loss
+  **+0.8%**, waiting **−4.2%**, and **26 more trips complete** in the hour. The
+  through-route (Dorchester Road) now keeps its 30mph+ limit, so the scheme's
+  only new constraint is on the 20mph side roads — consistent with the wiki's
+  "negligible impact on journey time" claim.
+- **Off-peak:** journey time **−0.8 s (−0.01 min)** — negligible, well within
+  the wiki's "average journey time might only increase by around one minute".
 - Both support the wiki's §2.2 conclusion of *negligible* journey-time impact.
 
 ### 2.3 Public Perception (Not Modelled)
@@ -383,11 +402,12 @@ python3 sumo/analyze_noise.py --now sumo/wool.dft_now.emissions.xml \
 | Scenario | fleet mean dB(A) | per-vehicle mean dB(A) | Δ |
 |---|---|---|---|
 | Peak 30mph | 61.17 | 61.55 | — |
-| Peak 20mph | 61.05 | 61.38 | **−0.12 / −0.17** |
+| Peak 20mph | 61.30 | 61.64 | **+0.13 / +0.09** |
 | Off-peak 30mph | 62.63 | 62.86 | — |
-| Off-peak 20mph | 62.59 | 62.77 | **−0.03 / −0.09** |
+| Off-peak 20mph | 62.64 | 62.86 | **+0.01 / +0.00** |
 
-**Finding:** the model shows a **small reduction (<0.2 dB(A))**, far below the
+**Finding:** the model shows **essentially no change** — a **+0.13 dB(A)** rise
+at peak (within noise) and **+0.01 dB(A)** off-peak. This is far below the
 wiki's cited 3 dB(A) (UK research), up to 6 dB(A) at peak — see
 [Table 3](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#table_3noise_reduction_from_30mph_to_20mph)
 and [European evidence](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#european_evidence)
@@ -395,9 +415,11 @@ and [European evidence](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolsp
 class and acceleration, and a "signs-only" speed cap without traffic calming
 changes those only marginally (see
 [Why speed affects noise](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit#why_speed_affects_noise)).
-The wiki's larger figures come from physical measures and real-world
-measurement; the simulation should be read as a *lower bound* on the noise
-benefit, not a contradiction.
+With the corrected network the arterial keeps its speed, so the scheme does not
+reduce noise below the baseline in this model. The wiki's larger figures come
+from physical measures and real-world measurement; the simulation models a
+signs-only cap on side roads and should be read as a **lower bound** on the
+noise benefit, not a contradiction.
 
 ### 3.4 Community Liveability (Not Modelled)
 
@@ -439,10 +461,14 @@ This simulation supports the wiki's overall case, with these qualifications:
 | Rec 4 — self-enforcing road design | Not modelled (physical calming differs from a signs-only cap) |
 | Rec 5 — enforcement/education strategy | Not modelled |
 
-**Net:** the simulations support the emissions (§2.1), flow (§2.2)
-and — modestly — noise (§3.3) arguments. The safety-outcome (§3.1) and
-active-travel (§3.2) arguments remain **evidence gaps** in the current model
-and are flagged as future work rather than confirmed.
+**Net:** the simulations support the emissions (§2.1) and flow (§2.2)
+arguments — a clear emissions reduction at peak and a negligible journey-time
+impact. On noise (§3.3) the model shows **no reduction** (a signs-only cap on
+side roads leaves network noise essentially unchanged), so the noise argument
+rests on the wiki's external evidence rather than this simulation. The
+safety-outcome (§3.1) and active-travel (§3.2) arguments remain **evidence
+gaps** in the current model and are flagged as future work rather than
+confirmed.
 
 ---
 

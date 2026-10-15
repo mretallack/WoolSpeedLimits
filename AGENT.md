@@ -2,7 +2,7 @@
 
 This repository (`TrafficSim` / `WoolSimulation`) models traffic simulation scenarios for the village of Wool, Dorset, using SUMO (Simulation of Urban MObility). It evaluates the impact of the proposed 20mph scheme.
 
-**Scope of the scheme (important):** the proposal is **not** "all roads become 20mph except X". It is a **positive list**: a road becomes 20mph **only if it appears in the Dorset Council consultation**. The authoritative definition is `Sources/Wool20MphRoads.json` (consultation geoJSON: 41 segments, 35 streets, including Colliers Lane and Lulworth Road; Dorchester Road is not listed and stays at its existing limit). Any road not in that file is unchanged.
+**Scope of the scheme (important):** the proposal is **not** "all roads become 20mph except X". It is a **positive list**: a road becomes 20mph **only if it appears in the Dorset Council consultation**. The authoritative definition is `Sources/Wool20MphRoads.json` (consultation geoJSON: 41 segments, 35 streets, including Colliers Lane and Lulworth Road; Dorchester Road is not listed and stays at its existing limit). Any road not in that file is unchanged. `wool.20mph.net.xml` is generated from this list by `sumo/build_20mph_net.py` (see `sumo/NETWORK_BUILD.md` for the method, the 20 speed-tag anomalies and the 9 streets absent from the network).
 
 ## Key Components
 - **`WoolSimulation/sumo/`**: Contains SUMO network files (`wool.net.xml`, `wool.20mph.net.xml`), additional files (traffic lights, level crossings, emissions), and runner configurations.
