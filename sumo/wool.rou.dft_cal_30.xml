@@ -2,10 +2,12 @@
 
     <!-- ================================================================
          CALIBRATED-BEHAVIOUR PEAK DEMAND (30mph baseline) — "dft_cal" set
-         Driver behaviour split taken from DfT SPE0101 (2024, cars):
-             30 mph roads: 43% exceed  -> 57% at/below, 39% 1-10 over, 4% 10+ over
-         (see Sources/spe0101.ods and DFT_BEHAVIOUR.md)
-         Demand volumes are the survey-calibrated peak flows (FLOW_CALIBRATION.md).
+         Continuous speed-factor distribution fitted to DfT SPE0101 (2024):
+           30 mph roads: 43% exceed the limit; avg free-flow 30 mph.
+         normc(mean, sd, min, max): factor ~ Normal(mean, sd) truncated.
+           mean=0.968, sd=0.180  ->  P(factor>1)=43%  (mean speed ~29 mph)
+         See Sources/spe0101.ods and DFT_BEHAVIOUR.md.
+         Demand volumes = survey-calibrated peak flows (FLOW_CALIBRATION.md).
          ================================================================ -->
 
     <vType id="MCY" vClass="motorcycle" guiShape="motorcycle" maxSpeed="35.0" speedFactor="1.1" speedDev="0.15" />
@@ -13,34 +15,27 @@
     <vType id="LGV" vClass="truck" guiShape="truck" maxSpeed="25.0" speedFactor="1.0" />
     <vType id="HGV" vClass="trailer" guiShape="truck/semitrailer" maxSpeed="22.0" speedFactor="0.9" />
 
-    <!-- Car behaviour bands (speedFactor = speed / limit) -->
-    <vType id="CAR_LOW"  vClass="passenger" guiShape="passenger" color="0,255,0"  maxSpeed="45.0" speedFactor="0.95" speedDev="0.05" />
-    <vType id="CAR_MID"  vClass="passenger" guiShape="passenger" color="0,0,255"  maxSpeed="45.0" speedFactor="1.10" speedDev="0.07" />
-    <vType id="CAR_HIGH" vClass="passenger" guiShape="passenger" color="255,0,0"  maxSpeed="45.0" speedFactor="1.40" speedDev="0.10" />
+    <!-- Cars: continuous distribution (all cars share one type; speedFactor varies per vehicle) -->
+    <vType id="CAR" vClass="passenger" guiShape="passenger" color="0,0,255" maxSpeed="45.0" speedFactor="normc(0.968,0.180,0.2,2.0)" />
 
-    <!-- A352 W->E cars: 518 split 57/39/4  -> 295 / 202 / 21 -->
-    <flow id="we_car_low"  from="348027517" to="--13195" vehsPerHour="295" type="CAR_LOW"  begin="0" end="3600" departLane="best" departSpeed="max" />
-    <flow id="we_car_mid"  from="348027517" to="--13195" vehsPerHour="202" type="CAR_MID"  begin="0" end="3600" departLane="best" departSpeed="max" />
-    <flow id="we_car_high" from="348027517" to="--13195" vehsPerHour="21"  type="CAR_HIGH" begin="0" end="3600" departLane="best" departSpeed="max" />
-
+    <!-- A352 W->E cars: 518 -->
+    <flow id="we_cars" from="348027517" to="--13195" vehsPerHour="518" type="CAR" begin="0" end="3600" departLane="best" departSpeed="max" />
     <flow id="west_to_east_1" from="348027517" to="--13195" vehsPerHour="12" type="MCY" begin="0" end="3600" />
     <flow id="west_to_east_3" from="348027517" to="--13195" vehsPerHour="2"  type="BUS" begin="0" end="3600" />
     <flow id="west_to_east_4" from="348027517" to="--13195" vehsPerHour="49" type="LGV" begin="0" end="3600" />
     <flow id="west_to_east_5" from="348027517" to="--13195" vehsPerHour="25" type="HGV" begin="0" end="3600" />
 
-    <flow id="west_to_east_10" from="4691379#0" to="--13195" vehsPerHour="141" type="CAR_MID" begin="0" end="3600" />
+    <flow id="west_to_east_10" from="4691379#0" to="--13195" vehsPerHour="141" type="CAR" begin="0" end="3600" />
 
     <flow id="south_to_north_0" from="-143541622" to="-144378564" vehsPerHour="1"  type="MCY" begin="0" end="3600" />
-    <flow id="south_to_north_1" from="-143541622" to="-144378564" vehsPerHour="49" type="CAR_MID" begin="0" end="3600" />
+    <flow id="south_to_north_1" from="-143541622" to="-144378564" vehsPerHour="49" type="CAR" begin="0" end="3600" />
     <flow id="south_to_north_2" from="-143541622" to="-144378564" vehsPerHour="2"  type="BUS" begin="0" end="3600" />
     <flow id="south_to_north_3" from="-143541622" to="-144378564" vehsPerHour="5"  type="LGV" begin="0" end="3600" />
     <flow id="south_to_north_4" from="-143541622" to="-144378564" vehsPerHour="1"  type="HGV" begin="0" end="3600" />
 
-    <!-- A352 E->W cars: 500 split 57/39/4 -> 285 / 195 / 20 -->
+    <!-- A352 E->W cars: 500 -->
     <flow id="east_to_west_0" from="-13195" to="-348027517" vehsPerHour="6"   type="MCY" begin="0" end="3600" />
-    <flow id="east_to_west_1" from="-13195" to="-348027517" vehsPerHour="285" type="CAR_LOW" begin="0" end="3600" />
-    <flow id="east_to_west_5" from="-13195" to="-348027517" vehsPerHour="195" type="CAR_MID" begin="0" end="3600" />
-    <flow id="east_to_west_6" from="-13195" to="-348027517" vehsPerHour="20"  type="CAR_HIGH" begin="0" end="3600" />
+    <flow id="east_to_west_1" from="-13195" to="-348027517" vehsPerHour="500" type="CAR" begin="0" end="3600" />
     <flow id="east_to_west_2" from="-13195" to="-348027517" vehsPerHour="5"   type="BUS" begin="0" end="3600" />
     <flow id="east_to_west_3" from="-13195" to="-348027517" vehsPerHour="49"  type="LGV" begin="0" end="3600" />
     <flow id="east_to_west_4" from="-13195" to="-348027517" vehsPerHour="17"  type="HGV" begin="0" end="3600" />

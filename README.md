@@ -4,10 +4,11 @@ This repository contains SUMO (Simulation of Urban MObility) models evaluating
 the proposed 20mph speed limit in the village of Wool, Dorset, as detailed in
 the [Wool Speed Limit Wiki](https://www.retallack.org.uk/dokuwiki/doku.php?id=woolspeedlimit).
 
-**Headline finding (caveated):** whether 20mph *reduces* or *increases* modelled
-emissions depends on the assumed driver behaviour. With DfT-calibrated
-non-compliance (the evidence-based set) it **increases** peak emissions; journey
-times improve slightly in all sets. See the two result documents below.
+**Headline finding (caveated):** the modelled emissions result depends on the
+assumed driver behaviour. With DfT-calibrated speed distributions (the
+evidence-based set) the absolute peak totals are **mixed** — CO2/fuel fall but
+PMx/CO rise — while per km driven most pollutants fall. Journey times improve in
+all sets. See the two result documents below.
 
 ## Tests we have run
 

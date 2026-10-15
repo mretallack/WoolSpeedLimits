@@ -41,33 +41,49 @@ At the **08:00 peak hour** (SPE0113, cars): **41%** exceed on 30 mph roads,
 have *different* compliance profiles. A model that uses the same behaviour mix
 for both cannot represent this.
 
-## Behaviour bands used in `dft_cal`
+## Behaviour model used in `dft_cal` (continuous distribution)
 
-Three car types, each a band, calibrated so the mix matches the DfT split and
-`speedFactor` ≈ achieved speed / limit:
+Instead of a few discrete bands, cars use a **single continuous speed-factor
+distribution per limit**, fitted so the modelled **% exceeding the limit matches
+DfT**. SUMO's `speedFactor="normc(mean, sd, min, max)"` gives each vehicle a
+factor drawn from a truncated normal.
 
-| Band | 30 mph roads | 20 mph roads | speedFactor (30 / 20) | achieved speed |
+| Road type | target % exceeding | `normc(mean, sd, min, max)` | achieved % exceeding | mean speed |
 |---|---|---|---|---|
-| `CAR_LOW`  (at/below)      | 57% | 24% | 0.95 / 0.95 | 28.5 / 19 mph |
-| `CAR_MID`  (1–10 over)     | 39% | 66% | 1.10 / 1.20 | 33 / 24 mph |
-| `CAR_HIGH` (10+ over)      | 4%  | 10% | 1.40 / 1.60 | 42 / 32 mph |
+| 30 mph | 43% | `normc(0.968, 0.180, 0.2, 2.0)` | **42.7%** | 29.1 mph |
+| 20 mph | 76% | `normc(1.141, 0.200, 0.2, 2.0)` | **74.7%** | 22.9 mph |
 
-Applied to the survey-calibrated car totals (518 W→E, 500 E→W):
+*(Achieved figures measured from the run's `tripinfo` `speedFactor` values.)*
 
-| Scenario | `CAR_LOW` | `CAR_MID` | `CAR_HIGH` |
-|---|---|---|---|
-| `wool.rou.dft_cal_30.xml` (30 mph) | 295 / 285 | 202 / 195 | 21 / 20 |
-| `wool.rou.dft_cal_20.xml` (20 mph) | 124 / 120 | 342 / 330 | 52 / 50 |
+Applied to the survey-calibrated car totals (518 W→E, 500 E→W) — all cars use
+the one fitted type:
 
-Only the **behaviour mix** differs between the two scenarios — the total demand
+| Scenario | car type | car flow |
+|---|---|---|
+| `wool.rou.dft_cal_30.xml` (30 mph) | `CAR` = `normc(0.968,0.180,…)` | 518 / 500 |
+| `wool.rou.dft_cal_20.xml` (20 mph) | `CAR` = `normc(1.141,0.200,…)` | 518 / 500 |
+
+Only the **distribution** differs between the two scenarios — the total demand
 (1,382 veh/hr) is identical, so the comparison is controlled.
+
+### On matching DfT's average speed as well
+
+DfT publishes both a **% exceeding** and an **average free-flow speed**. For a
+**symmetric** distribution these are very slightly inconsistent (DfT: 30 mph
+roads average 30 mph yet 43% exceed — a symmetric distribution with mean exactly
+on the limit would give 50%). Real speed distributions are **right-skewed** (a
+long tail of high speeders), which the truncated normal approximates. We
+therefore fit to the **% exceeding** (the measure that defines speeders) and
+accept the mean lands ~1–1.5 mph below DfT's rounded average. This is a known
+approximation.
 
 ## How this differs from the earlier `dft` set
 
 | | `dft` set (original) | `dft_cal` set (this) |
 |---|---|---|
-| Non-compliant share | **20% fixed** (arbitrary) | **41%** (30mph) / **77%** (20mph), from DfT |
-| Same mix at 20 and 30? | Yes | **No** — matches DfT |
+| Speed representation | 3 fixed types | **continuous `normc` distribution** |
+| Non-compliant share | **20% fixed** (arbitrary) | **~43%** (30mph) / **~75%** (20mph), fitted to DfT |
+| Same spread at 20 and 30? | Yes | **No** — matches DfT |
 | Basis | leftover ratio, not evidence-based | DfT SPE0101 (2024) |
 
 ## Files

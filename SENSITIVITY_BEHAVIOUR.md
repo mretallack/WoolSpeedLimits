@@ -10,41 +10,45 @@ modelled.
 
 ## What was changed
 
-Only the **driver behaviour mix** changed between the two scenarios, following
-DfT SPE0101 (2024). Total demand is identical (1,382 veh/hr). See
-`sumo/DFT_BEHAVIOUR.md`.
+Only the **driver speed distribution** changed between the two scenarios,
+fitted to DfT SPE0101 (2024). Total demand is identical (1,382 veh/hr). Cars use
+a continuous `normc` speed-factor distribution; see `sumo/DFT_BEHAVIOUR.md`.
 
 | | 30mph scenario | 20mph scenario |
 |---|---|---|
-| At/below limit | 57% | 24% |
-| 1–10 mph over | 39% | 66% |
-| 10+ mph over | 4% | 10% |
-| (non-compliant total) | **43%** | **76%** |
+| Distribution | `normc(0.968,0.180,…)` | `normc(1.141,0.200,…)` |
+| DfT target % exceeding | 43% | 76% |
+| Achieved % exceeding | 42.7% | 74.7% |
+| Mean speed | 29.1 mph | 22.9 mph |
 
 ## Emissions (peak, 20mph vs 30mph)
 
 | Metric | road_total | vehicle_total | vehicle_perkm |
 |---|---|---|---|
-| CO2  | **+1.41%** | +1.39% | +6.03% |
-| NOx  | **+3.07%** | +3.06% | +7.77% |
-| PMx  | **+2.55%** | +2.50% | +7.18% |
-| CO   | **+14.74%** | +14.55% | +19.78% |
-| HC   | −1.19% | −0.95% | +3.58% |
-| fuel | **+1.41%** | +1.39% | +6.03% |
+| CO2  | **−4.81%** | −4.79% | −11.51% |
+| NOx  | +0.83% | +0.77% | −6.35% |
+| PMx  | **+3.09%** | +2.83% | −4.43% |
+| CO   | **+30.72%** | +30.36% | +21.15% |
+| HC   | +1.72% | +1.51% | −5.66% |
+| fuel | **−4.80%** | −4.78% | −11.50% |
+
+Mixed at the totals: CO2 and fuel fall, PMx and CO rise sharply. The **per-km**
+view (which normalises out the extra distance travelled) shows CO2/fuel/NOx/PMx/
+HC all **fall**, with CO still rising.
 
 ## Journey time / flow (peak)
 
 | Scenario | Avg duration | Time loss | Waiting | Completed |
 |---|---|---|---|---|
-| cal 30mph | 620.1 s | 262.5 s | 126.3 s | 1089 |
-| cal 20mph | 594.5 s | 269.6 s | 111.5 s | 1037 |
+| cal 30mph | 814.4 s | 433.9 s | 139.7 s | 1012 |
+| cal 20mph | 700.5 s | 362.6 s | 138.9 s | 1059 |
 
-- Journey time **−25.7 s**, waiting **−11.7%** (flow is fine).
-- Time loss **+2.7%**; 52 fewer trips complete in the hour.
+- Journey time **−114.0 s**, time loss **−16.4%**, 47 more trips complete.
+- Waiting essentially unchanged (−0.6%).
 
 ## Noise (peak)
 
-Fleet mean 63.05 → 63.53 dB(A): **+0.48 dB(A)** (a small *increase*).
+Fleet mean 61.56 → 62.49 dB(A): **+0.93 dB(A)** (a small *increase*).
 
 ## Why the reversal?
 
@@ -57,38 +61,54 @@ set assumed only 20% non-compliance and the *same* mix at both limits.
 
 ## Comparison of the two simulation sets
 
-| Peak, road_total | `dft` set (fixed 20% speeders) | `dft_cal` set (DfT-calibrated) |
+| Peak, road_total | `dft` set (fixed 20% speeders) | `dft_cal` set (DfT-calibrated, continuous) |
 |---|---|---|
-| CO2  | −1.85% | **+1.41%** |
-| NOx  | −2.99% | **+3.07%** |
-| PMx  | −1.88% | **+2.55%** |
-| CO   | −0.70% | **+14.74%** |
-| HC   | −7.10% | **−1.19%** |
-| fuel | −1.86% | **+1.41%** |
-| journey time | +0.2 s | −25.7 s |
-| noise | +0.13 dB(A) | +0.48 dB(A) |
+| CO2  | −1.85% | **−4.81%** |
+| NOx  | −2.99% | +0.83% |
+| PMx  | −1.88% | **+3.09%** |
+| CO   | −0.70% | **+30.72%** |
+| HC   | −7.10% | +1.72% |
+| fuel | −1.86% | **−4.80%** |
+| journey time | +0.2 s | −114.0 s |
+| noise | +0.13 dB(A) | +0.93 dB(A) |
 
 ## Interpretation (factual)
 
-- The **direction of the emissions result depends on the assumed driver
-  behaviour.** With low assumed non-compliance (the `dft` set) 20mph reduces
-  emissions; with DfT-calibrated non-compliance (the `dft_cal` set) 20mph
-  increases them.
-- The `dft_cal` behaviour is the evidence-based one (DfT SPE0101, 2024), so its
-  result should be given more weight — **but see the caveats**.
-- Journey-time and flow results are **robust**: both sets show a small
-  improvement under 20mph.
-- Noise shows **no benefit** in either set.
+- The **emissions result depends strongly on the assumed driver behaviour**, and
+  becomes **mixed rather than a clean sign** once behaviour is DfT-calibrated:
+  CO2 and fuel **fall**, while PMx and CO **rise sharply**; NOx and HC are
+  roughly flat.
+- The **per-km** view (which removes the effect of the 20mph scenario covering
+  more distance) shows CO2, fuel, NOx, PMx and HC **all fall**, with only CO
+  rising. So "pollution per km driven" improves even though some absolute
+  totals rise.
+- **Journey time and flow improve** under 20mph in the calibrated set
+  (−114 s, −16% time loss); the earlier `dft` set showed it roughly unchanged.
+  Both are non-negative, so the flow conclusion is robust.
+- Noise shows **no benefit** in either set (+0.48 to +0.93 dB(A)).
+
+### Why the calibrated set differs so much from the first attempt
+
+The first `cal` attempt used **three discrete bands**; this version uses a
+**continuous distribution fitted to the DfT % exceeding**. The continuous form
+puts more traffic at moderate over-limit speeds (on 20mph roads, a mean factor
+of ~1.14), which raises CO and PMx while lowering CO2/fuel — hence the change in
+sign for several pollutants. The discrete-band result (CO2 +1.41%, NOx +3.07%)
+is superseded by the fitted continuous result above.
 
 ## Caveats
 
 1. Both sets use the same **simplified network and estimated flows**; see
    `FLOW_CALIBRATION.md` and `sumo/NETWORK_BUILD.md`.
-2. The behaviour bands are a **three-band approximation** of a continuous
-   distribution; the exact band boundaries affect the magnitude (not the sign).
+2. The speed distribution is a **truncated normal fitted to the % exceeding**,
+   not a full empirical histogram (DfT does not publish one). Real distributions
+   are right-skewed, so the fitted mean speed sits ~1–1.5 mph below DfT's
+   rounded average — see `sumo/DFT_BEHAVIOUR.md`.
 3. DfT compliance is measured on **free-flowing** roads; congested conditions
-   will differ.
-4. HC remains the least stable metric (see `EXPERIMENT_REPORT.md` §2.1.1).
+   will differ, and this is a single-hour peak model.
+4. The emissions result is **not a clean sign**: CO2/fuel fall but PMx/CO rise at
+   the road total. Report the metric, not a single verdict.
+5. HC remains the least stable metric (see `EXPERIMENT_REPORT.md` §2.1.1).
 
 ## Reproducing
 
